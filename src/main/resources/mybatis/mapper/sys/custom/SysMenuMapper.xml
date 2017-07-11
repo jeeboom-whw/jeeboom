@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hongwei.moddle.sys.dao.SysMenuDAO">
+
+   <resultMap id="sysMenuMapper" type="com.hongwei.moddle.sys.entity.SysMenu">
+    <result property="id" column="id" />
+    <result property="name" column="name" />
+    <result property="pid" column="pid" />
+    <result property="level" column="level" />
+    <result property="orderNo" column="order_no" />
+    <result property="path" column="path" />
+    <result property="permision" column="permision" />
+    <result property="img" column="img" />
+    <result property="isShow" column="is_show" />
+    <result property="status" column="status" />
+    <result property="createTime" column="create_time" />
+    <result property="updateTime" column="update_time" />
+    <result property="createBy" column="create_by" />
+    <result property="updateBy" column="update_by" />
+   </resultMap>
+
+   <!-- 根据角色IDS 查询菜单集合 -->
+   <select id="selectByRoleIds" resultMap="sysMenuMapper">
+    SELECT * FROM sys_menu WHERE sys_menu.id IN (
+      SELECT sys_role_menu.sys_menu_id FROM sys_role_menu WHERE
+      sys_role_menu.sys_role_id IN
+      <foreach collection="roleIds" open="(" separator="," close=")" item="roleId">
+          #{roleId}
+      </foreach>
+    ) AND sys_menu.status = 2
+   </select>
+
+    <!-- 根据角色IDS 查询菜单集合 -->
+    <select id="selectPermissions" resultType="String">
+        SELECT sys_menu.permision FROM sys_menu WHERE sys_menu.id IN (
+        SELECT sys_role_menu.sys_menu_id FROM sys_role_menu WHERE
+        sys_role_menu.sys_role_id IN
+        <foreach collection="roleIds" open="(" separator="," close=")" item="roleId">
+            #{roleId}
+        </foreach>
+        ) AND sys_menu.status = 2 AND  sys_menu.permision != '' AND  sys_menu.permision IS NOT NULL
+    </select>
+</mapper>

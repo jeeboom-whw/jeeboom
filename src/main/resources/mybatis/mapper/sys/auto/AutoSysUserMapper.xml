@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hongwei.moddle.sys.dao.auto.AutoSysUserDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="sysUserMapper" type="com.hongwei.moddle.sys.entity.SysUser">
+		<result property="id" column="id" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="name" column="name" />
+		<result property="phone" column="phone" />
+		<result property="status" column="status" />
+		<result property="loginTime" column="login_time" />
+		<result property="errorDate" column="error_date" />
+		<result property="errorTime" column="error_time" />
+		<result property="createTime" column="create_time" />
+		<result property="updateTime" column="update_time" />
+		<result property="createBy" column="create_by" />
+		<result property="updateBy" column="update_by" />
+	</resultMap>
+
+	<!-- 分页查询数据集合-->
+	<select id="selectListByPage" resultMap="sysUserMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="pager!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+
+	<!-- 查询总数量 -->
+	<select id="selectCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectOne" resultMap="sysUserMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectById" resultMap="sysUserMapper" >
+		<include refid="selectAllColumns"/>
+		WHERE record.id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.hongwei.moddle.sys.entity.SysUser">
+		INSERT INTO sys_user(
+			username,
+			password,
+			name,
+			phone,
+			status,
+			login_time,
+			error_date,
+			error_time,
+			create_time,
+			update_time,
+			create_by,
+			update_by
+		) values (
+			#{username},
+			#{password},
+			#{name},
+			#{phone},
+			#{status},
+			#{loginTime},
+			#{errorDate},
+			#{errorTime},
+			#{createTime},
+			#{updateTime},
+			#{createBy},
+			#{updateBy}
+		)
+	</insert>
+
+	<!-- 修改（通过ID只对不为空的内容进行修改 -->
+	<update id="updateNotNull" parameterType="com.hongwei.moddle.sys.entity.SysUser">
+		UPDATE sys_user record
+		<include refid="update_fragement"/>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 修改（通过ID更新所有属性值） -->
+	<update id="updateParams" parameterType="com.hongwei.moddle.sys.entity.SysUser">
+		UPDATE sys_user record
+		<set>
+				record.username = #{username},
+				record.password = #{password},
+				record.name = #{name},
+				record.phone = #{phone},
+				record.status = #{status},
+				record.login_time = #{loginTime},
+				record.error_date = #{errorDate},
+				record.error_time = #{errorTime},
+				record.create_time = #{createTime},
+				record.update_time = #{updateTime},
+				record.create_by = #{createBy},
+				record.update_by = #{updateBy}
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!--通过ID删除信息-->
+	<delete id="deleteById">
+		DELETE FROM sys_user
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 通过IDS批量删除 -->
+	<delete id="deleteByIds">
+		DELETE FROM sys_user
+		WHERE id IN
+		<foreach collection="ids" open="(" separator="," close=")" item="id">
+			  #{id}
+		</foreach>
+	</delete>
+
+	<!-- /////////////////// 公共SQL STR ////////////////// -->
+
+	<!-- 查询数量公共sql -->
+	<sql id="count_Tail">
+		SELECT count(1) FROM sys_user record
+	</sql>
+
+	<!-- 分页公共sql -->
+	<sql id="pagination_tail">
+		<if test="pager.orderBy != null and pager.orderBy != ''">
+			ORDER  BY  ${pager.orderBy}
+		</if>
+	  	limit #{pager.index} , #{pager.pageSize}
+	</sql>
+	<!-- 查询字段公共sql -->
+	<sql id="selectAllColumns">
+		<![CDATA[
+			SELECT
+				id,
+				username,
+				password,
+				name,
+				phone,
+				status,
+				login_time,
+				error_date,
+				error_time,
+				create_time,
+				update_time,
+				create_by,
+				update_by
+			FROM sys_user record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		WHERE 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null">
+					<![CDATA[ AND record.id  = #{entity.id} ]]>
+				</if>
+				<if test = "entity.username != null and entity.username != ''">
+					<![CDATA[ AND record.username  = #{entity.username} ]]>
+				</if>
+				<if test = "entity.password != null and entity.password != ''">
+					<![CDATA[ AND record.password  = #{entity.password} ]]>
+				</if>
+				<if test = "entity.name != null and entity.name != ''">
+					<![CDATA[ AND record.name LIKE concat('%',#{entity.name},'%') ]]>
+				</if>
+				<if test = "entity.phone != null and entity.phone != ''">
+					<![CDATA[ AND record.phone LIKE concat('%',#{entity.phone},'%') ]]>
+				</if>
+				<if test = "entity.status != null">
+					<![CDATA[ AND record.status  = #{entity.status} ]]>
+				</if>
+				<if test = "entity.loginTime != null">
+					<![CDATA[ AND record.login_time  = #{entity.loginTime} ]]>
+				</if>
+				<if test = "entity.errorDate != null">
+					<![CDATA[ AND record.error_date  = #{entity.errorDate} ]]>
+				</if>
+				<if test = "entity.errorTime != null">
+					<![CDATA[ AND record.error_time  = #{entity.errorTime} ]]>
+				</if>
+				<if test = "entity.createTime != null">
+					<![CDATA[ AND record.create_time  = #{entity.createTime} ]]>
+				</if>
+				<if test = "entity.updateTime != null">
+					<![CDATA[ AND record.update_time  = #{entity.updateTime} ]]>
+				</if>
+				<if test = "entity.createBy != null">
+					<![CDATA[ AND record.create_by  = #{entity.createBy} ]]>
+				</if>
+				<if test = "entity.updateBy != null">
+					<![CDATA[ AND record.update_by  = #{entity.updateBy} ]]>
+				</if>
+		</if>
+	</sql>
+
+	<!--公共修改sql-->
+	<sql id="update_fragement">
+		<set>
+			<if test = "username != null and username != ''">
+				record.username = #{username},
+			</if>
+			<if test = "password != null and password != ''">
+				record.password = #{password},
+			</if>
+			<if test = "name != null and name != ''">
+				record.name = #{name},
+			</if>
+			<if test = "phone != null and phone != ''">
+				record.phone = #{phone},
+			</if>
+			<if test = "status != null ">
+				record.status = #{status},
+			</if>
+			<if test = "loginTime != null ">
+				record.login_time = #{loginTime},
+			</if>
+			<if test = "errorDate != null ">
+				record.error_date = #{errorDate},
+			</if>
+			<if test = "errorTime != null ">
+				record.error_time = #{errorTime},
+			</if>
+			<if test = "createTime != null ">
+				record.create_time = #{createTime},
+			</if>
+			<if test = "updateTime != null ">
+				record.update_time = #{updateTime},
+			</if>
+			<if test = "createBy != null ">
+				record.create_by = #{createBy},
+			</if>
+			<if test = "updateBy != null ">
+				record.update_by = #{updateBy}
+			</if>
+		</set>
+	</sql>
+	<!-- /////////////////// 公共SQL END ////////////////// -->
+</mapper>

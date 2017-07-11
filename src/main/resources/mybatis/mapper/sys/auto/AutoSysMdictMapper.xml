@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hongwei.moddle.sys.dao.auto.AutoSysMdictDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="sysMdictMapper" type="com.hongwei.moddle.sys.entity.SysMdict">
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="name" column="name" />
+		<result property="value" column="value" />
+		<result property="info" column="info" />
+		<result property="orderNo" column="order_no" />
+	</resultMap>
+
+	<!-- 分页查询数据集合-->
+	<select id="selectListByPage" resultMap="sysMdictMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="pager!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+
+	<!-- 查询总数量 -->
+	<select id="selectCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectOne" resultMap="sysMdictMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectById" resultMap="sysMdictMapper" >
+		<include refid="selectAllColumns"/>
+		WHERE record.id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.hongwei.moddle.sys.entity.SysMdict">
+		INSERT INTO sys_mdict(
+			title,
+			name,
+			value,
+			info,
+			order_no
+		) values (
+			#{title},
+			#{name},
+			#{value},
+			#{info},
+			#{orderNo}
+		)
+	</insert>
+
+	<!-- 修改（通过ID只对不为空的内容进行修改 -->
+	<update id="updateNotNull" parameterType="com.hongwei.moddle.sys.entity.SysMdict">
+		UPDATE sys_mdict record
+		<include refid="update_fragement"/>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 修改（通过ID更新所有属性值） -->
+	<update id="updateParams" parameterType="com.hongwei.moddle.sys.entity.SysMdict">
+		UPDATE sys_mdict record
+		<set>
+				record.title = #{title},
+				record.name = #{name},
+				record.value = #{value},
+				record.info = #{info},
+				record.order_no = #{orderNo}
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!--通过ID删除信息-->
+	<delete id="deleteById">
+		DELETE FROM sys_mdict
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 通过IDS批量删除 -->
+	<delete id="deleteByIds">
+		DELETE FROM sys_mdict
+		WHERE id IN
+		<foreach collection="ids" open="(" separator="," close=")" item="id">
+			  #{id}
+		</foreach>
+	</delete>
+
+	<!-- /////////////////// 公共SQL STR ////////////////// -->
+
+	<!-- 查询数量公共sql -->
+	<sql id="count_Tail">
+		SELECT count(1) FROM sys_mdict record
+	</sql>
+
+	<!-- 分页公共sql -->
+	<sql id="pagination_tail">
+		<if test="pager.orderBy != null and pager.orderBy != ''">
+			ORDER  BY  ${pager.orderBy}
+		</if>
+	  	limit #{pager.index} , #{pager.pageSize}
+	</sql>
+	<!-- 查询字段公共sql -->
+	<sql id="selectAllColumns">
+		<![CDATA[
+			SELECT
+				id,
+				title,
+				name,
+				value,
+				info,
+				order_no
+			FROM sys_mdict record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		WHERE 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null">
+					<![CDATA[ AND record.id  = #{entity.id} ]]>
+				</if>
+				<if test = "entity.title != null and entity.title != ''">
+					<![CDATA[ AND record.title  = #{entity.title} ]]>
+				</if>
+				<if test = "entity.name != null and entity.name != ''">
+					<![CDATA[ AND record.name  = #{entity.name} ]]>
+				</if>
+				<if test = "entity.value != null and entity.value != ''">
+					<![CDATA[ AND record.value  = #{entity.value} ]]>
+				</if>
+				<if test = "entity.info != null and entity.info != ''">
+					<![CDATA[ AND record.info  = #{entity.info} ]]>
+				</if>
+				<if test = "entity.orderNo != null">
+					<![CDATA[ AND record.order_no  = #{entity.orderNo} ]]>
+				</if>
+		</if>
+	</sql>
+
+	<!--公共修改sql-->
+	<sql id="update_fragement">
+		<set>
+			<if test = "title != null and title != ''">
+				record.title = #{title},
+			</if>
+			<if test = "name != null and name != ''">
+				record.name = #{name},
+			</if>
+			<if test = "value != null and value != ''">
+				record.value = #{value},
+			</if>
+			<if test = "info != null and info != ''">
+				record.info = #{info},
+			</if>
+			<if test = "orderNo != null ">
+				record.order_no = #{orderNo}
+			</if>
+		</set>
+	</sql>
+	<!-- /////////////////// 公共SQL END ////////////////// -->
+</mapper>

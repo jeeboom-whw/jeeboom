@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache >
+    <!--
+        磁盘存储:将缓存中展示不使用的对象，转移到硬盘，类似于Windows系统的虚拟内存
+            path:指定在硬盘上存储对象的路径
+     -->
+    <diskStore path="../temp/jeeboom/ehcache" />
+
+    <!-- 默认缓存配置. 自动失效：最后一次访问时间间隔300秒失效，若没有访问过自创建时间600秒失效。-->
+    <defaultCache
+        maxEntriesLocalHeap="1000"
+        eternal="false"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="600"
+        overflowToDisk="true"
+        statistics="true"
+    />
+
+    <!-- 系统缓存 -->
+    <cache
+        name="sysCache"
+        maxEntriesLocalHeap="1000"
+        eternal="true"
+        overflowToDisk="true"
+        statistics="true"
+    />
+</ehcache>

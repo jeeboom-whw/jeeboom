@@ -1,0 +1,33 @@
+#服务配置\
+server:
+  port: 8080
+  context-path: /jeeadmin
+
+#freemarke配置
+spring:
+ freemarker:
+   cache: false
+   checkTemplateLocation: true
+   contentType: text/html
+   suffix: .ftl
+   templateEncoding: UTF-8
+   templateLoaderPath: classpath:/templates/
+ datasource:
+  url: jdbc:mysql://localhost:3306/jeeboom?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+  username: root
+  password: 12qwAS!@
+  driverClassName: com.mysql.jdbc.Driver
+  max-active: 20
+  max-idle: 8
+  min-idle: 8
+  initial-size: 10
+ cache:
+  ehcache:
+    config: classpath:ehcache.xml
+ jackson:
+   time-zone: GMT+8
+
+#Mybatis mapper.xml配置
+mybatis:
+ config-locations: classpath:mybatis/mybatis-config.xml
+ mapper-locations: classpath:mybatis/mapper/*/*/*.xml
