@@ -146,7 +146,7 @@
                         layer.open({
                             type: 2,
                             title:nav_main.text(),
-                            area: ['400px', '380px'],
+                            area: ['550px', '380px'],
                             fixed: false, //不固定
                             maxmin: true,
                             content: dataUrl

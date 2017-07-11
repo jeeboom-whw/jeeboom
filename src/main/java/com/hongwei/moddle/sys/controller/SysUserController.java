@@ -1,29 +1,21 @@
 package com.hongwei.moddle.sys.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.alibaba.fastjson.JSON;
-import com.hongwei.common.constant.CodeEnum;
 import com.hongwei.common.bean.Pager;
 import com.hongwei.common.bean.ResultData;
+import com.hongwei.common.constant.CodeEnum;
 import com.hongwei.common.framework.base.BaseController;
-import com.hongwei.common.interfaces.NotLogin;
 import com.hongwei.common.interfaces.Permission;
 import com.hongwei.common.util.ImportExcelUtil;
 import com.hongwei.common.util.MD5Utils;
 import com.hongwei.common.util.OutputExcelUtil;
 import com.hongwei.common.util.StringUtil;
-import com.hongwei.moddle.base.vo.resp.Demo;
 import com.hongwei.moddle.sys.entity.SysRole;
 import com.hongwei.moddle.sys.entity.SysUser;
 import com.hongwei.moddle.sys.service.SysRoleService;
 import com.hongwei.moddle.sys.service.SysUserService;
 import com.hongwei.moddle.sys.utils.UserUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -90,7 +80,7 @@ public class SysUserController extends BaseController {
             sysUserService.save(sysUser, StringUtil.toLongArray(roleIds),user.getId());
             return success();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage(),e);
             return error();
         }
     }
@@ -160,8 +150,16 @@ public class SysUserController extends BaseController {
     @ResponseBody
     @PostMapping("importExl")
     public ResultData<Object> importExl(MultipartFile file){
-        List<SysUser> list = new ImportExcelUtil(file, 2, SysUser.class).getList();
-        System.out.println(JSON.toJSONString(list));
-        return success(list);
+        try {
+            List<SysUser> list = new ImportExcelUtil(file, 2, SysUser.class).getList();
+            if(list == null || list.size() < 1){
+                return error(CodeEnum.IMPORT_EXCEL_ERROR);
+            }
+            return success(JSON.toJSONString(list));
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            return error();
+        }
+
     }
 }

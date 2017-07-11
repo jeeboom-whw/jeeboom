@@ -15,7 +15,7 @@
 					<li class="layui-this">修改密码</li>
 				</ul>
 			</div>
-			<form id="saveForm" class="layui-form layui-form-pane mt10" >
+			<form id="saveForm" class="layui-form layui-form-pane mt20" >
 				<div class="layui-form-item">
 					<label class="layui-form-label">原密码</label>
 					<div class="layui-input-block">

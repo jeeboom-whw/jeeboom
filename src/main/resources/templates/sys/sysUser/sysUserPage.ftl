@@ -45,9 +45,12 @@
                     <div class="layui-inline fr">
                         <a href="javascript:layui.outputExl();" class="layui-btn  layui-btn-primary">导出用户&nbsp;<i class="layui-icon" >&#xe601;</i></a>
                     </div>
-					<div class="layui-inline fr">
+                    <div class="layui-inline fr">
                         <input name="file" class="layui-upload-file" type="file" lay-type="file">
-					</div>
+                    </div>
+                    <div class="layui-inline fr">
+                        <a href="javascript:layui.tempDown();" class="layui-btn  layui-btn-primary">下载模板&nbsp;<i class="layui-icon" >&#xe601;</i></a>
+                    </div>
 				</div>
 			</form>
 						
@@ -172,13 +175,24 @@
                     window.open("${springMacroRequestContext.contextPath}/sysUser/outputExl");
 				}
 
+				//上传
                 layui.upload({
                     url: '${springMacroRequestContext.contextPath}/sysUser/importExl',
+					title: "导入用户",
                     ext: 'xls',
 					success: function(res){ //上传成功后的回调
-                        console.log(res)
+                        if(res.code == 200){
+							layer.msg("您导入的数据为:" + res.data);
+						}else{
+                            layer.msg(res.message);
+						}
                     }
                 });
+
+				//下载模板
+				layui.tempDown = function(){
+                    window.open("${springMacroRequestContext.contextPath}/userTemp.xls");
+				}
 			});
 		</script>
 	</body>
