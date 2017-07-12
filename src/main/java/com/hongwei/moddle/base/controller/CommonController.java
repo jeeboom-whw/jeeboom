@@ -41,7 +41,7 @@ public class CommonController extends BaseController {
             //创建左侧菜单实体类
             SysMenuResp sysMenuResp = null;
             //获取左侧菜单
-            if(m == null){
+            if(m == null && sysMenuResps.size() > 0){
                 sysMenuResp = sysMenuResps.get(0);
             }else{
                 List<SysMenuResp> resps = sysMenuResps.stream().filter(menu -> menu.getId() == m).collect(Collectors.toList());
@@ -95,17 +95,4 @@ public class CommonController extends BaseController {
         }
         return sysMenuResps;
     }
-
-    @NotLogin
-    @GetMapping("a")
-    @ResponseBody
-    public SysUserResp a(){
-        SysUserResp sysUser = new SysUserResp();
-        sysUser.setPassword("123qwe");
-        sysUser.setUpdateTime(new Date());
-        sysUser.setPhone("18646809934");
-        return sysUser;
-    }
-
-
 }
