@@ -1,7 +1,7 @@
 package com.hongwei.moddle.sys.controller;
 
-import com.hongwei.common.constant.CodeEnum;
 import com.hongwei.common.bean.ResultData;
+import com.hongwei.common.constant.CodeEnum;
 import com.hongwei.common.framework.base.BaseController;
 import com.hongwei.common.interfaces.Permission;
 import com.hongwei.moddle.sys.entity.SysMenu;
