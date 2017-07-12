@@ -63,6 +63,7 @@
 						success:function(d){
 							layer.closeAll('loading');
                             if(d.code == 200){
+                                window.top.layer.msg('保存成功', {icon: 1});
                                 parent.layui.submitForm();
                             }else{
                                 layer.msg("对不起，访问不成功！错误编码：" + d.code);
