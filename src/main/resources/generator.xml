@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+     <comment>代码生成器配置文件:</comment>
+
+     <!-- ########################## 生成代码路径 BEGIN ########################## -->
+
+     <entry key="basepackage">com.hongwei.moddle</entry>
+     <entry key="outRoot">C:/Users/Administrator/Desktop/IdeaProject/adminauto</entry>
+
+     <!-- ##########################  生成代码路径 END  ########################## -->
+     <!-- ============================================================================================================= -->
+     <!-- ########################## MySQL链接 BEGIN ########################## -->
+
+     <entry key="jdbc.url">jdbc:mysql://localhost:3306/jeeboom?useUnicode=true&amp;characterEncoding=UTF-8</entry>
+     <entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
+     <entry key="jdbc.username">root</entry>
+     <entry key="jdbc.password">12qwAS!@</entry>
+
+     <!-- ##########################  MySQL链接 END  ########################## -->
+     <!-- ============================================================================================================= -->
+     <!-- ########################## MySQL类型转换 BEGIN ########################## -->
+
+     <entry key="tableRemovePrefixes"/>
+     <entry key="CHAR">String</entry>
+     <entry key="VARCHAR">String</entry>
+     <entry key="LONGVARCHAR">String</entry>
+     <entry key="TINYINT">Integer</entry>
+     <entry key="NUMERIC">Double</entry>
+     <entry key="DECIMAL">java.math.BigDecimal</entry>
+     <entry key="BIGINT">Long</entry>
+     <entry key="REAL">Double</entry>
+     <entry key="SMALLINT">Integer</entry>
+     <entry key="INTEGER">Integer</entry>
+     <entry key="INT">Integer</entry>
+     <entry key="DATE">java.util.Date</entry>
+     <entry key="TIME">java.util.Date</entry>
+     <entry key="DATETIME">java.util.Date</entry>
+     <entry key="TIMESTAMP">java.util.Date</entry>
+     <entry key="BIT">Boolean</entry>
+
+     <!-- ##########################  MySQL类型转换 END  ########################## -->
+
+</properties>
