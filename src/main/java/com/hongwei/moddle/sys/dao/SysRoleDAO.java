@@ -1,6 +1,8 @@
 package com.hongwei.moddle.sys.dao;
 
 
+import com.hongwei.common.framework.base.BaseDAO;
+import com.hongwei.moddle.sys.entity.SysRole;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -19,4 +21,8 @@ public interface SysRoleDAO {
 
     @Update("update sys_role set sys_role.status = #{status} where id = #{id}")
     void accredit(@Param("id")Long id, @Param("status")Integer status);
+}
+@Component
+interface AutoSysRoleDAO extends BaseDAO<SysRole> {
+
 }

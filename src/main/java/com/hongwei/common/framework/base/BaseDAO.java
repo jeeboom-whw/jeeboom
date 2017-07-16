@@ -25,6 +25,9 @@ public interface BaseDAO<T> {
 	/** 新增 */
 	void insert(T t);
 
+	/** 批量新增 */
+	void insertAll(@Param("entitys")List<T> entitys);
+
 	/** 修改（通过ID只对不为空的内容进行修改） */
 	void updateNotNull(T t);
 

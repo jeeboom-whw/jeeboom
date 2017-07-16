@@ -2,7 +2,7 @@
  <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hongwei.moddle.sys.dao.auto.AutoSysMdictDAO">
+<mapper namespace="com.hongwei.moddle.sys.dao.AutoSysMdictDAO">
 	<!-- 返回值映射map -->
 	<resultMap id="sysMdictMapper" type="com.hongwei.moddle.sys.entity.SysMdict">
 		<result property="id" column="id" />
@@ -55,6 +55,25 @@
 			#{info},
 			#{orderNo}
 		)
+	</insert>
+
+	<!-- 批量新增 -->
+	<insert id="insertAll" >
+		<foreach collection="entitys" item="entity">
+			INSERT INTO sys_mdict(
+				title,
+				name,
+				value,
+				info,
+				order_no
+			) values (
+				#{entity.title},
+				#{entity.name},
+				#{entity.value},
+				#{entity.info},
+				#{entity.orderNo}
+			);
+		</foreach>
 	</insert>
 
 	<!-- 修改（通过ID只对不为空的内容进行修改 -->

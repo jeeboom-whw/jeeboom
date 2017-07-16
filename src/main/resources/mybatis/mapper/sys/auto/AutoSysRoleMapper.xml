@@ -2,7 +2,7 @@
  <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.hongwei.moddle.sys.dao.auto.AutoSysRoleDAO">
+<mapper namespace="com.hongwei.moddle.sys.dao.AutoSysRoleDAO">
 	<!-- 返回值映射map -->
 	<resultMap id="sysRoleMapper" type="com.hongwei.moddle.sys.entity.SysRole">
 		<result property="id" column="id" />

@@ -1,6 +1,7 @@
 package com.hongwei.moddle.sys.dao;
 
 
+import com.hongwei.common.framework.base.BaseDAO;
 import com.hongwei.moddle.sys.entity.SysMenu;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
@@ -21,5 +22,9 @@ public interface SysMenuDAO {
     void accredit(@Param("id")Long id,@Param("status")Integer status);
 
     List<String> selectPermissions(@Param("roleIds") List<Long> roleIds);
+}
+@Component
+interface AutoSysMenuDAO extends BaseDAO<SysMenu> {
+
 }
 

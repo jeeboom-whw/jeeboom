@@ -48,6 +48,13 @@ public class BaseService<T> {
         baseDAO.insert(t);
     }
 
+    /** 批量添加 */
+    @Transactional
+    public void insertAll(List<T> list) {
+        getBaseDao();
+        baseDAO.insertAll(list);
+    }
+
     /** 修改（通过ID只对不为空的内容进行修改）*/
     @Transactional
     public void updateNotNull(T t) {

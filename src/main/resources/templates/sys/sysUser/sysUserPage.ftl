@@ -60,9 +60,10 @@
             	描述：表格
             -->
             <div style="margin-top: 20px;">
-				<table class="layui-table" >
+				<table class="layui-table layui-form" >
 				    <thead>
 						<tr>
+                            <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
 							<th>用户姓名</th>
 							<th>用户账号</th>
 							<th>手机号码</th>
@@ -76,6 +77,7 @@
 					<tbody>
 						<#list pager.list as entity>
 							<tr>
+                                <td><input type="checkbox" name="" lay-skin="primary"></td>
 								<td><a href="javascript:layui.showInfo('${(entity.id)!}')">${(entity.name)!}</a></td>
 								<td>${(entity.username)!}</td>
 								<td>${(entity.phone)!}</td>
@@ -103,6 +105,16 @@
 				var laypage = layui.laypage;
 				var layer = layui.layer;
 				var $ = layui.jquery;
+
+                //全选
+                form.on('checkbox(allChoose)', function(data){
+                    var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+                    child.each(function(index, item){
+                        item.checked = data.elem.checked;
+                    });
+                    form.render('checkbox');
+                });
+
 				laypage({
 					cont: 'pager',
 					pages: '${(pager.pageNum)!1}',

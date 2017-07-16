@@ -1,6 +1,8 @@
 package com.hongwei.moddle.sys.dao;
 
 
+import com.hongwei.common.framework.base.BaseDAO;
+import com.hongwei.moddle.sys.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Component;
@@ -18,4 +20,8 @@ public interface SysUserDAO {
     /** 上下架 */
     @Update("update sys_user set sys_user.status = #{status} where id = #{id}")
     void accredit(@Param("id")Long id, @Param("status")Integer status);
+}
+@Component
+interface AutoSysUserDAO extends BaseDAO<SysUser> {
+
 }
