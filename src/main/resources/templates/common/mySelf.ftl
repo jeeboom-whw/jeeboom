@@ -37,7 +37,7 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">登录时间</label>
 					<div class="layui-input-block">
-						<input type="text" value="${loginUser.loginTime?string("yyyy年MM月dd日 HH:mm:ss")}" class="layui-input" >
+						<input type="text" value="${((loginUser.loginTime??)?string(loginUser.loginTime?string("yyyy年MM月dd日 HH:mm:ss"),""))}" class="layui-input" >
 					</div>
 				</div>
 				<div class="layui-form-item">
