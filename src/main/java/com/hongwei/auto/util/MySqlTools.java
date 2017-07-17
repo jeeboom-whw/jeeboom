@@ -22,7 +22,12 @@ public class MySqlTools {
     public static DatabaseMetaData getDatabaseMetaData() throws Exception{
         //链接mysql
         Class.forName(MySqlConstant.DRIVER_NAME);
-        conn = DriverManager.getConnection(MySqlConstant.URL, MySqlConstant.USERNAME, MySqlConstant.PASSWORD);
+        Properties props =new Properties();
+        props.setProperty("user", MySqlConstant.USERNAME);
+        props.setProperty("password", MySqlConstant.PASSWORD);
+        props.setProperty("remarks", "true"); //设置可以获取remarks信息
+        props.setProperty("useInformationSchema", "true");//设置可以获取tables remarks信息
+        conn = DriverManager.getConnection(MySqlConstant.URL,props);
         databaseMetaData = conn.getMetaData();
         return databaseMetaData;
     }
@@ -85,7 +90,10 @@ public class MySqlTools {
     public static Table getTable(String tableName){
         try {
             ResultSet resultSet = MySqlTools.getDatabaseMetaData().getTables(MySqlConstant.CATALOG, MySqlConstant.SCHEMA, tableName, new String[0]);
-            Table table = new Table(resultSet);
+            Table table = null;
+            while (resultSet.next()){
+                table = new Table(resultSet);
+            }
             table.setColumns(getColumns(tableName));
             table.setPkColumns(getPrimaryKeys(tableName));
             return table;
@@ -109,16 +117,16 @@ public class MySqlTools {
 
 
     public static void main(String[] args) throws Exception{
-        String model = "sys";
+        String model = "auto";
         //获取当前日期
         SimpleDateFormat sm_date = new SimpleDateFormat("yyyy年MM月dd日");
         SimpleDateFormat sm_year = new SimpleDateFormat("yyyy年");
 
         Map<String,Object> map = new HashMap<String, Object>();
         //String tableName, String uname, String info, String model, String basePackage
-        CommonEntity entity = new CommonEntity("sys_user", "whw", "系统用户", "sys");
+        CommonEntity entity = new CommonEntity("auto_table", "whw", "数据库表", model);
         map.put("entity",entity);
-        map.put("classNameLower",entity.getClassName());
+        map.put("classNameLower",entity.getClassNameLower());
         map.put("model",entity.getModel());
         map.put("className",entity.getClassName());
         map.put("package",entity.getBasePackage());

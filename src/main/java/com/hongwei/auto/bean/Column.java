@@ -32,8 +32,8 @@ public class Column {
     public Column(ResultSet resultSet) throws SQLException {
         this.label = resultSet.getString("REMARKS");
         String name = resultSet.getString("COLUMN_NAME");
-        this.name = name;
-        this.dbName = CamelCaseUtils.toCamelCase(name);
+        this.name = CamelCaseUtils.toCamelCase(name);
+        this.dbName = name;
         String dbType = resultSet.getString("TYPE_NAME");
         String type = PropertiesUtil.getValue(dbType);
         this.dbType = dbType;

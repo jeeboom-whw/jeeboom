@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hongwei.moddle.auto.dao.AutoAutoTableDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="autoTableMapper" type="com.hongwei.moddle.auto.entity.AutoTable">
+		<result property="id" column="id" />
+		<result property="tableName" column="table_name" />
+		<result property="name" column="name" />
+		<result property="label" column="label" />
+		<result property="type" column="type" />
+		<result property="isDel" column="is_del" />
+		<result property="isShow" column="is_show" />
+		<result property="isStatus" column="is_status" />
+		<result property="isAllDel" column="is_all_del" />
+		<result property="isAllShow" column="is_all_show" />
+		<result property="isAllStatus" column="is_all_status" />
+	</resultMap>
+
+	<!-- 分页查询数据集合-->
+	<select id="selectListByPage" resultMap="autoTableMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="pager!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+
+	<!-- 查询总数量 -->
+	<select id="selectCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectOne" resultMap="autoTableMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectById" resultMap="autoTableMapper" >
+		<include refid="selectAllColumns"/>
+		WHERE record.id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.hongwei.moddle.auto.entity.AutoTable">
+		INSERT INTO auto_table(
+			table_name,
+			name,
+			label,
+			type,
+			is_del,
+			is_show,
+			is_status,
+			is_all_del,
+			is_all_show,
+			is_all_status
+		) values (
+			#{tableName},
+			#{name},
+			#{label},
+			#{type},
+			#{isDel},
+			#{isShow},
+			#{isStatus},
+			#{isAllDel},
+			#{isAllShow},
+			#{isAllStatus}
+		)
+	</insert>
+
+	<!-- 修改（通过ID只对不为空的内容进行修改 -->
+	<update id="updateNotNull" parameterType="com.hongwei.moddle.auto.entity.AutoTable">
+		UPDATE auto_table record
+		<include refid="update_fragement"/>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 修改（通过ID更新所有属性值） -->
+	<update id="updateParams" parameterType="com.hongwei.moddle.auto.entity.AutoTable">
+		UPDATE auto_table record
+		<set>
+				record.table_name = #{tableName},
+				record.name = #{name},
+				record.label = #{label},
+				record.type = #{type},
+				record.is_del = #{isDel},
+				record.is_show = #{isShow},
+				record.is_status = #{isStatus},
+				record.is_all_del = #{isAllDel},
+				record.is_all_show = #{isAllShow},
+				record.is_all_status = #{isAllStatus}
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!--通过ID删除信息-->
+	<delete id="deleteById">
+		DELETE FROM auto_table
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 通过IDS批量删除 -->
+	<delete id="deleteByIds">
+		DELETE FROM auto_table
+		WHERE id IN
+		<foreach collection="ids" open="(" separator="," close=")" item="id">
+			  #{id}
+		</foreach>
+	</delete>
+
+	<!-- /////////////////// 公共SQL STR ////////////////// -->
+
+	<!-- 查询数量公共sql -->
+	<sql id="count_Tail">
+		SELECT count(1) FROM auto_table record
+	</sql>
+
+	<!-- 分页公共sql -->
+	<sql id="pagination_tail">
+		<if test="pager.orderBy != null and pager.orderBy != ''">
+			ORDER  BY  ${pager.orderBy}
+		</if>
+	  	limit #{pager.index} , #{pager.pageSize}
+	</sql>
+	<!-- 查询字段公共sql -->
+	<sql id="selectAllColumns">
+		<![CDATA[
+			SELECT
+				id,
+				table_name,
+				name,
+				label,
+				type,
+				is_del,
+				is_show,
+				is_status,
+				is_all_del,
+				is_all_show,
+				is_all_status
+			FROM auto_table record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		WHERE 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null">
+					<![CDATA[ AND record.id  = #{entity.id} ]]>
+				</if>
+				<if test = "entity.tableName != null and entity.tableName != ''">
+					<![CDATA[ AND record.table_name  = #{entity.tableName} ]]>
+				</if>
+				<if test = "entity.name != null and entity.name != ''">
+					<![CDATA[ AND record.name  = #{entity.name} ]]>
+				</if>
+				<if test = "entity.label != null and entity.label != ''">
+					<![CDATA[ AND record.label  = #{entity.label} ]]>
+				</if>
+				<if test = "entity.type != null">
+					<![CDATA[ AND record.type  = #{entity.type} ]]>
+				</if>
+				<if test = "entity.isDel != null">
+					<![CDATA[ AND record.is_del  = #{entity.isDel} ]]>
+				</if>
+				<if test = "entity.isShow != null">
+					<![CDATA[ AND record.is_show  = #{entity.isShow} ]]>
+				</if>
+				<if test = "entity.isStatus != null">
+					<![CDATA[ AND record.is_status  = #{entity.isStatus} ]]>
+				</if>
+				<if test = "entity.isAllDel != null">
+					<![CDATA[ AND record.is_all_del  = #{entity.isAllDel} ]]>
+				</if>
+				<if test = "entity.isAllShow != null">
+					<![CDATA[ AND record.is_all_show  = #{entity.isAllShow} ]]>
+				</if>
+				<if test = "entity.isAllStatus != null">
+					<![CDATA[ AND record.is_all_status  = #{entity.isAllStatus} ]]>
+				</if>
+		</if>
+	</sql>
+
+	<!--公共修改sql-->
+	<sql id="update_fragement">
+		<set>
+			<if test = "tableName != null and tableName != ''">
+				record.table_name = #{tableName},
+			</if>
+			<if test = "name != null and name != ''">
+				record.name = #{name},
+			</if>
+			<if test = "label != null and label != ''">
+				record.label = #{label},
+			</if>
+			<if test = "type != null ">
+				record.type = #{type},
+			</if>
+			<if test = "isDel != null ">
+				record.is_del = #{isDel},
+			</if>
+			<if test = "isShow != null ">
+				record.is_show = #{isShow},
+			</if>
+			<if test = "isStatus != null ">
+				record.is_status = #{isStatus},
+			</if>
+			<if test = "isAllDel != null ">
+				record.is_all_del = #{isAllDel},
+			</if>
+			<if test = "isAllShow != null ">
+				record.is_all_show = #{isAllShow},
+			</if>
+			<if test = "isAllStatus != null ">
+				record.is_all_status = #{isAllStatus}
+			</if>
+		</set>
+	</sql>
+	<!-- /////////////////// 公共SQL END ////////////////// -->
+</mapper>

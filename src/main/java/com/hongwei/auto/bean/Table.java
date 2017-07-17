@@ -39,15 +39,13 @@ public class Table {
     private final static String PREFIEX = PropertiesUtil.getValue("tableRemovePrefixes");
 
     public Table(ResultSet resultSet) throws Exception {
-        while (resultSet.next()){
-            String name = resultSet.getString("TABLE_NAME");
-            if( PREFIEX != null && !"".equals(PREFIEX) ){
-                name = name.split(PREFIEX)[0];
-            }
-            this.name = CamelCaseUtils.toCamelCase(name);
-            this.dbName = name;
-            this.label = resultSet.getString("REMARKS");
+        String name = resultSet.getString("TABLE_NAME");
+        if( PREFIEX != null && !"".equals(PREFIEX) ){
+            name = name.split(PREFIEX)[0];
         }
+        this.name = CamelCaseUtils.toCamelCase(name);
+        this.dbName = name;
+        this.label = resultSet.getString("REMARKS");
     }
 
 

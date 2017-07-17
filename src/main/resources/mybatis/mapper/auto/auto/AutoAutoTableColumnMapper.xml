@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.hongwei.moddle.auto.dao.AutoAutoTableColumnDAO">
+	<!-- 返回值映射map -->
+	<resultMap id="autoTableColumnMapper" type="com.hongwei.moddle.auto.entity.AutoTableColumn">
+		<result property="id" column="id" />
+		<result property="tableId" column="table_id" />
+		<result property="columnName" column="column_name" />
+		<result property="name" column="name" />
+		<result property="columnType" column="column_type" />
+		<result property="type" column="type" />
+		<result property="length" column="length" />
+		<result property="label" column="label" />
+		<result property="nullable" column="nullable" />
+		<result property="isList" column="is_list" />
+		<result property="isSelect" column="is_select" />
+		<result property="isSelectType" column="is_select_type" />
+		<result property="orderNo" column="order_no" />
+		<result property="mdictTitle" column="mdict_title" />
+	</resultMap>
+
+	<!-- 分页查询数据集合-->
+	<select id="selectListByPage" resultMap="autoTableColumnMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+		<if test="pager!=null">
+			<include refid="pagination_tail" />
+		</if>
+	</select>
+
+	<!-- 查询总数量 -->
+	<select id="selectCount" resultType="long">
+		<include refid="count_Tail"></include>
+		<include refid="where_fragement"></include>
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectOne" resultMap="autoTableColumnMapper" >
+		<include refid="selectAllColumns"/>
+		<include refid="where_fragement" />
+	</select>
+
+	<!-- 单条查询 -->
+	<select id="selectById" resultMap="autoTableColumnMapper" >
+		<include refid="selectAllColumns"/>
+		WHERE record.id = #{id}
+	</select>
+
+	<!-- 新增 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.hongwei.moddle.auto.entity.AutoTableColumn">
+		INSERT INTO auto_table_column(
+			table_id,
+			column_name,
+			name,
+			column_type,
+			type,
+			length,
+			label,
+			nullable,
+			is_list,
+			is_select,
+			is_select_type,
+			order_no,
+			mdict_title
+		) values (
+			#{tableId},
+			#{columnName},
+			#{name},
+			#{columnType},
+			#{type},
+			#{length},
+			#{label},
+			#{nullable},
+			#{isList},
+			#{isSelect},
+			#{isSelectType},
+			#{orderNo},
+			#{mdictTitle}
+		)
+	</insert>
+
+	<!-- 修改（通过ID只对不为空的内容进行修改 -->
+	<update id="updateNotNull" parameterType="com.hongwei.moddle.auto.entity.AutoTableColumn">
+		UPDATE auto_table_column record
+		<include refid="update_fragement"/>
+		WHERE id = #{id}
+	</update>
+
+	<!-- 修改（通过ID更新所有属性值） -->
+	<update id="updateParams" parameterType="com.hongwei.moddle.auto.entity.AutoTableColumn">
+		UPDATE auto_table_column record
+		<set>
+				record.table_id = #{tableId},
+				record.column_name = #{columnName},
+				record.name = #{name},
+				record.column_type = #{columnType},
+				record.type = #{type},
+				record.length = #{length},
+				record.label = #{label},
+				record.nullable = #{nullable},
+				record.is_list = #{isList},
+				record.is_select = #{isSelect},
+				record.is_select_type = #{isSelectType},
+				record.order_no = #{orderNo},
+				record.mdict_title = #{mdictTitle}
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<!--通过ID删除信息-->
+	<delete id="deleteById">
+		DELETE FROM auto_table_column
+		WHERE id = #{id}
+	</delete>
+
+	<!-- 通过IDS批量删除 -->
+	<delete id="deleteByIds">
+		DELETE FROM auto_table_column
+		WHERE id IN
+		<foreach collection="ids" open="(" separator="," close=")" item="id">
+			  #{id}
+		</foreach>
+	</delete>
+
+	<!-- /////////////////// 公共SQL STR ////////////////// -->
+
+	<!-- 查询数量公共sql -->
+	<sql id="count_Tail">
+		SELECT count(1) FROM auto_table_column record
+	</sql>
+
+	<!-- 分页公共sql -->
+	<sql id="pagination_tail">
+		<if test="pager.orderBy != null and pager.orderBy != ''">
+			ORDER  BY  ${pager.orderBy}
+		</if>
+	  	limit #{pager.index} , #{pager.pageSize}
+	</sql>
+	<!-- 查询字段公共sql -->
+	<sql id="selectAllColumns">
+		<![CDATA[
+			SELECT
+				id,
+				table_id,
+				column_name,
+				name,
+				column_type,
+				type,
+				length,
+				label,
+				nullable,
+				is_list,
+				is_select,
+				is_select_type,
+				order_no,
+				mdict_title
+			FROM auto_table_column record
+		]]>
+	</sql>
+
+	<sql id="where_fragement">
+		WHERE 1=1
+		<if test="entity!=null">
+				<if test = "entity.id != null">
+					<![CDATA[ AND record.id  = #{entity.id} ]]>
+				</if>
+				<if test = "entity.tableId != null">
+					<![CDATA[ AND record.table_id  = #{entity.tableId} ]]>
+				</if>
+				<if test = "entity.columnName != null and entity.columnName != ''">
+					<![CDATA[ AND record.column_name  = #{entity.columnName} ]]>
+				</if>
+				<if test = "entity.name != null and entity.name != ''">
+					<![CDATA[ AND record.name  = #{entity.name} ]]>
+				</if>
+				<if test = "entity.columnType != null and entity.columnType != ''">
+					<![CDATA[ AND record.column_type  = #{entity.columnType} ]]>
+				</if>
+				<if test = "entity.type != null and entity.type != ''">
+					<![CDATA[ AND record.type  = #{entity.type} ]]>
+				</if>
+				<if test = "entity.length != null">
+					<![CDATA[ AND record.length  = #{entity.length} ]]>
+				</if>
+				<if test = "entity.label != null and entity.label != ''">
+					<![CDATA[ AND record.label  = #{entity.label} ]]>
+				</if>
+				<if test = "entity.nullable != null">
+					<![CDATA[ AND record.nullable  = #{entity.nullable} ]]>
+				</if>
+				<if test = "entity.isList != null">
+					<![CDATA[ AND record.is_list  = #{entity.isList} ]]>
+				</if>
+				<if test = "entity.isSelect != null">
+					<![CDATA[ AND record.is_select  = #{entity.isSelect} ]]>
+				</if>
+				<if test = "entity.isSelectType != null">
+					<![CDATA[ AND record.is_select_type  = #{entity.isSelectType} ]]>
+				</if>
+				<if test = "entity.orderNo != null">
+					<![CDATA[ AND record.order_no  = #{entity.orderNo} ]]>
+				</if>
+				<if test = "entity.mdictTitle != null and entity.mdictTitle != ''">
+					<![CDATA[ AND record.mdict_title  = #{entity.mdictTitle} ]]>
+				</if>
+		</if>
+	</sql>
+
+	<!--公共修改sql-->
+	<sql id="update_fragement">
+		<set>
+			<if test = "tableId != null ">
+				record.table_id = #{tableId},
+			</if>
+			<if test = "columnName != null and columnName != ''">
+				record.column_name = #{columnName},
+			</if>
+			<if test = "name != null and name != ''">
+				record.name = #{name},
+			</if>
+			<if test = "columnType != null and columnType != ''">
+				record.column_type = #{columnType},
+			</if>
+			<if test = "type != null and type != ''">
+				record.type = #{type},
+			</if>
+			<if test = "length != null ">
+				record.length = #{length},
+			</if>
+			<if test = "label != null and label != ''">
+				record.label = #{label},
+			</if>
+			<if test = "nullable != null ">
+				record.nullable = #{nullable},
+			</if>
+			<if test = "isList != null ">
+				record.is_list = #{isList},
+			</if>
+			<if test = "isSelect != null ">
+				record.is_select = #{isSelect},
+			</if>
+			<if test = "isSelectType != null ">
+				record.is_select_type = #{isSelectType},
+			</if>
+			<if test = "orderNo != null ">
+				record.order_no = #{orderNo},
+			</if>
+			<if test = "mdictTitle != null and mdictTitle != ''">
+				record.mdict_title = #{mdictTitle}
+			</if>
+		</set>
+	</sql>
+	<!-- /////////////////// 公共SQL END ////////////////// -->
+</mapper>
