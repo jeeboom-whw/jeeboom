@@ -38,7 +38,7 @@
                 描述：表格
             -->
             <div style="margin-top: 20px;">
-                <table class="layui-table" >
+                <table class="layui-table layui-form" >
                     <thead>
                         <tr>
                             <th>属性名称</th>
@@ -63,9 +63,9 @@
                             <td>${(entity.columnType)!}</td>
                             <td>${(entity.type)!}</td>
                             <td>${(entity.length)!}</td>
-                            <td>${(entity.nullable)!}</td>
-                            <td>${(entity.isList)!}</td>
-                            <td>${(entity.isSelect)!}</td>
+                            <td><input type="checkbox" name = "nullable[${entity_index}]" lay-skin="primary" ${(entity.nullable?? && entity.nullable == 1)?string("checked","")} /></td>
+                            <td><input type="checkbox" name = "isList[${entity_index}]" lay-skin="primary" ${(entity.isList?? && entity.isList == 1)?string("checked","")} /></td>
+                            <td><input type="checkbox" name = "isSelect[${entity_index}]" lay-skin="primary" ${(entity.isSelect?? && entity.isSelect == 1)?string("checked","")} /></td>
                             <td>${(entity.isSelectType)!}</td>
                             <td>${(entity.orderNo)!}</td>
                             <td>${(entity.mdictTitle)!}</td>

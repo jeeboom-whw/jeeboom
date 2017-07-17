@@ -68,7 +68,7 @@ public class AutoTableController extends BaseController {
 			autoTableColumn.setLabel(column.getLabel());
 			autoTableColumn.setLength(column.getLength());
 			autoTableColumn.setName(column.getName());
-			autoTableColumn.setNullable(column.getNullable()?1:0);
+			autoTableColumn.setNullable(column.getNullable()?0:1);
 			return autoTableColumn;
 		}).collect(Collectors.toList());
 		model.addAttribute("list",autoTableColumns);
