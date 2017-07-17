@@ -25,7 +25,7 @@
 				</label>
 				<div class="rem_sub">
 					<label>
-						<input type="button" onclick="layui.login();" class="sub_button" value="登录" style="opacity: 0.7;">
+                        <button class="sub_button" style="opacity: 0.7;cursor:pointer;">登录</button>
 					</label>
 				</div>
 			</div>
