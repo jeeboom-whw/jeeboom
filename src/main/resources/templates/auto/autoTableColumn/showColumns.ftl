@@ -78,11 +78,11 @@
                     <tbody>
                         <#list list as entity>
                         <tr>
-                            <td>${(entity.columnName)!}</td>
-                            <td>${(entity.name)!}</td>
-                            <td>${(entity.columnType)!}</td>
-                            <td>${(entity.type)!}</td>
-                            <td>${(entity.length)!}</td>
+                            <td>${(entity.columnName)!}<input type="hidden" name="columnName[${entity_index}]" value="${(entity.columnName)!}"/> </td>
+                            <td>${(entity.name)!}<input type="hidden" name="name[${entity_index}]" value="${(entity.name)!}"/></td>
+                            <td>${(entity.columnType)!}<input type="hidden" name="columnType[${entity_index}]" value="${(entity.columnType)!}"/></td>
+                            <td>${(entity.type)!}<input type="hidden" name="type[${entity_index}]" value="${(entity.type)!}"/></td>
+                            <td>${(entity.length)!}<input type="hidden" name="length[${entity_index}]" value="${(entity.length)!}"/></td>
                             <td><input type="checkbox" name = "nullable[${entity_index}]" lay-skin="primary" ${(entity.nullable?? && entity.nullable == 1)?string("checked","")} /></td>
                             <td><input type="checkbox" name = "isList[${entity_index}]" lay-skin="primary" ${(entity.isList?? && entity.isList == 1)?string("checked","")} /></td>
                             <td><input type="checkbox" name = "isSelect[${entity_index}]" lay-skin="primary" ${(entity.isSelect?? && entity.isSelect == 1)?string("checked","")} /></td>

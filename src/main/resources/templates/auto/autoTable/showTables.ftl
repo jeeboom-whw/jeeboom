@@ -48,7 +48,7 @@
 
 
                     //搜索按钮点击事件
-                    layui.submitForm = function(){
+                    layui.nextForm = function(){
                         $("#searchForm").submit();
                     }
                 });
