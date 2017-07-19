@@ -21,6 +21,7 @@
                 时间：2017-03-15
                 描述：表单搜索
             -->
+            <form >
             <div class="layui-form" style="margin-top: 20px;">
                 <div class="layui-form-item">
                     <div class="layui-inline">
@@ -33,22 +34,22 @@
                         <input  type = "text" disabled value="${(tableName)!}" class="layui-input" />
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 批量上下架
+                        <input  type = "checkbox" value="1" name="isAllStatus" class="layui-input" /> 批量上下架
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 上下架
+                        <input  type = "checkbox" value="1" name="isStatus" class="layui-input" /> 上下架
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 批量展示隐藏
+                        <input  type = "checkbox" value="1" name="isAllShow" class="layui-input" /> 批量展示隐藏
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 展示隐藏
+                        <input  type = "checkbox" value="1" name="isShow" class="layui-input" /> 展示隐藏
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 批量删除
+                        <input  type = "checkbox" value="1" name="isAllDel" class="layui-input" /> 批量删除
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 删除
+                        <input  type = "checkbox" value="1" name="isDel" class="layui-input" /> 删除
                     </div>
                 </div>
             </div>
@@ -97,7 +98,7 @@
                         </#list>
                     </tbody>
                 </table>
-                <div id="pager" class="fr"></div>
+            </form>
             </div>
             </div>
             <script type="text/javascript" src="${springMacroRequestContext.contextPath}/static/layui/layui.js"></script>

@@ -1,5 +1,6 @@
 package com.hongwei.moddle.auto.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.hongwei.auto.bean.Column;
 import com.hongwei.auto.bean.Table;
 import com.hongwei.auto.util.MySqlTools;
@@ -78,6 +79,16 @@ public class AutoTableController extends BaseController {
 		model.addAttribute("list",autoTableColumns);
 		model.addAttribute("tableName",tableName);
 		return "auto/autoTableColumn/showColumns";
+	}
+
+	// 代码生成页面 选择数据库表
+	@Permission("auto:autoTable:view")
+	@GetMapping("pathFrom")
+	public String pathFrom(Model model,AutoTable autoTable,List<AutoTableColumn> autoTableColumns){
+		System.out.println(JSON.toJSONString(autoTable));
+		System.out.println(JSON.toJSONString(autoTableColumns));
+
+		return "auto/autoTable/showTables";
 	}
 
 
