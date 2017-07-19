@@ -33,7 +33,7 @@
                     </div>
                     <div class="layui-inline">
                         <button onclick="layui.nextForm()" class="layui-btn">下一步&nbsp;<i class="layui-icon" >&#xe602;</i></button>
-                     </div>
+                    </div>
                 </div>
             </form>
 

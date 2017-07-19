@@ -15,7 +15,7 @@
      <entry key="jdbc.url">jdbc:mysql://localhost:3306/jeeboom?useUnicode=true&amp;characterEncoding=UTF-8</entry>
      <entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
      <entry key="jdbc.username">root</entry>
-     <entry key="jdbc.password">12qwAS!@</entry>
+     <entry key="jdbc.password">12qwAS</entry>
 
      <!-- ##########################  MySQL链接 END  ########################## -->
      <!-- ============================================================================================================= -->

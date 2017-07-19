@@ -21,16 +21,37 @@
                 时间：2017-03-15
                 描述：表单搜索
             -->
-            <form id="searchForm" class="layui-form" style="margin-top: 20px;">
+            <div class="layui-form" style="margin-top: 20px;">
                 <div class="layui-form-item">
                     <div class="layui-inline">
-                        <input  type = "text" name="name" value="${(autoTableColumn.name)!}" placeholder="名称" class="layui-input" />
+                        表名：
+                    </div>
+                    <div class="layui-inline fr">
+                        <button onclick="layui.nextForm()" class="layui-btn">下一步&nbsp;<i class="layui-icon" >&#xe602;</i></button>
                     </div>
                     <div class="layui-inline">
-                        <button onclick="layui.submitForm()" class="layui-btn">搜索&nbsp;<i class="layui-icon" >&#xe615;</i></button>
+                        <input  type = "text" disabled value="${(tableName)!}" class="layui-input" />
+                    </div>
+                    <div class="layui-inline fr">
+                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 批量上下架
+                    </div>
+                    <div class="layui-inline fr">
+                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 上下架
+                    </div>
+                    <div class="layui-inline fr">
+                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 批量展示隐藏
+                    </div>
+                    <div class="layui-inline fr">
+                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 展示隐藏
+                    </div>
+                    <div class="layui-inline fr">
+                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 批量删除
+                    </div>
+                    <div class="layui-inline fr">
+                        <input  type = "checkbox" value="1" name="is_del" class="layui-input" /> 删除
                     </div>
                 </div>
-            </form>
+            </div>
 
             <!--
                 作者：196410791@qq.com
@@ -49,10 +70,9 @@
                             <th>是否空</th>
                             <th>是否展示</th>
                             <th>是否查询</th>
-                            <th>查询类型</th>
-                            <th>排序</th>
-                            <th>数据字典</th>
-                            <th>注释</th>
+                            <th width="100px">查询类型</th>
+                            <th width="100px">排序</th>
+                            <th width="100px">数据字典</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -66,10 +86,13 @@
                             <td><input type="checkbox" name = "nullable[${entity_index}]" lay-skin="primary" ${(entity.nullable?? && entity.nullable == 1)?string("checked","")} /></td>
                             <td><input type="checkbox" name = "isList[${entity_index}]" lay-skin="primary" ${(entity.isList?? && entity.isList == 1)?string("checked","")} /></td>
                             <td><input type="checkbox" name = "isSelect[${entity_index}]" lay-skin="primary" ${(entity.isSelect?? && entity.isSelect == 1)?string("checked","")} /></td>
-                            <td>${(entity.isSelectType)!}</td>
-                            <td>${(entity.orderNo)!}</td>
-                            <td>${(entity.mdictTitle)!}</td>
-                            <td>${(entity.label)!}</td>
+                            <td>
+                                <select name = "isSelectType[${entity_index}]">
+                                    <@common.mdictOptions title="auto_select_type" value="${(entity.isSelectType)!}" />
+                                </select>
+                            </td>
+                            <td><input type = "text" name = "orderNo[${entity_index}]" value = "${(entity.orderNo)!}" lay-verify="required|number" class="layui-input" maxlength="4"/></td>
+                            <td><input type = "text" name = "mdictTitle[${entity_index}]" value = "${(entity.mdictTitle)!}" lay-verify="required" class="layui-input" maxlength="50"/></td>
                         </tr>
                         </#list>
                     </tbody>

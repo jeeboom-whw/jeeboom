@@ -46,22 +46,6 @@ public class JeeboomApplication extends WebMvcConfigurerAdapter {
 				//全局修改日期格式
 				SerializerFeature.WriteDateUseDateFormat
 		);
-		ValueFilter valueFilter = new ValueFilter() {
-			//o 是class s 是key值 o1 是value值
-			public Object process(Object o, String s, Object o1) {
-				try {
-					Field declaredField = o.getClass().getDeclaredField(s);
-					System.out.println(declaredField.getType());
-					if (null == o1){
-						o1 = "";
-					}
-				} catch (NoSuchFieldException e) {
-					e.printStackTrace();
-				}
-				return o1;
-			}
-		};
-		fastJsonConfig.setSerializeFilters(valueFilter);
 		// 3.在convert中添加配置信息
 		fastConverter.setFastJsonConfig(fastJsonConfig);
 		// 4.将convert添加到converters当中

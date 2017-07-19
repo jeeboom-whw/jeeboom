@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,21 +58,25 @@ public class AutoTableController extends BaseController {
 	@GetMapping("showColumns")
 	public String showColumns(String tableName,Model model){
 		List<Column> columns = MySqlTools.getColumns(tableName);
-		List<AutoTableColumn> autoTableColumns = columns.stream().map(column -> {
+		List<AutoTableColumn> autoTableColumns = new ArrayList<AutoTableColumn>();
+		int i = 0;
+		for(Column column: columns){
 			AutoTableColumn autoTableColumn = new AutoTableColumn();
 			autoTableColumn.setColumnName(column.getDbName());
 			autoTableColumn.setColumnType(column.getDbType());
 			autoTableColumn.setType(column.getType());
 			autoTableColumn.setIsList(1);
 			autoTableColumn.setIsSelect(0);
-			autoTableColumn.setIsSelectType(0);
+			autoTableColumn.setIsSelectType(1);
 			autoTableColumn.setLabel(column.getLabel());
 			autoTableColumn.setLength(column.getLength());
 			autoTableColumn.setName(column.getName());
 			autoTableColumn.setNullable(column.getNullable()?0:1);
-			return autoTableColumn;
-		}).collect(Collectors.toList());
+			autoTableColumn.setOrderNo(i++ * 10);
+			autoTableColumns.add(autoTableColumn);
+		}
 		model.addAttribute("list",autoTableColumns);
+		model.addAttribute("tableName",tableName);
 		return "auto/autoTableColumn/showColumns";
 	}
 
