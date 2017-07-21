@@ -21,35 +21,35 @@
                 时间：2017-03-15
                 描述：表单搜索
             -->
-            <form >
-            <div class="layui-form" style="margin-top: 20px;">
+            <form class="layui-form" id="searchForm" action="${springMacroRequestContext.contextPath}/autoTable/pathFrom">
+            <div style="margin-top: 20px;">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         表名：
                     </div>
+                    <div class="layui-inline">
+                        <input  type = "text" disabled value="${(tableName)!}" name="autoTable.tableName" class="layui-input" />
+                    </div>
                     <div class="layui-inline fr">
                         <button onclick="layui.nextForm()" class="layui-btn">下一步&nbsp;<i class="layui-icon" >&#xe602;</i></button>
                     </div>
-                    <div class="layui-inline">
-                        <input  type = "text" disabled value="${(tableName)!}" class="layui-input" />
+                    <div class="layui-inline fr">
+                        <input  type = "checkbox" value="1" name="autoTable.isAllStatus" class="layui-input" /> 批量上下架
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="isAllStatus" class="layui-input" /> 批量上下架
+                        <input  type = "checkbox" value="1" name="autoTable.isStatus" class="layui-input" /> 上下架
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="isStatus" class="layui-input" /> 上下架
+                        <input  type = "checkbox" value="1" name="autoTable.isAllShow" class="layui-input" /> 批量展示隐藏
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="isAllShow" class="layui-input" /> 批量展示隐藏
+                        <input  type = "checkbox" value="1" name="autoTable.isShow" class="layui-input" /> 展示隐藏
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="isShow" class="layui-input" /> 展示隐藏
+                        <input  type = "checkbox" value="1" name="autoTable.isAllDel" class="layui-input" /> 批量删除
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="isAllDel" class="layui-input" /> 批量删除
-                    </div>
-                    <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="isDel" class="layui-input" /> 删除
+                        <input  type = "checkbox" value="1" name="autoTable.isDel" class="layui-input" /> 删除
                     </div>
                 </div>
             </div>
@@ -79,21 +79,21 @@
                     <tbody>
                         <#list list as entity>
                         <tr>
-                            <td>${(entity.columnName)!}<input type="hidden" name="columnName[${entity_index}]" value="${(entity.columnName)!}"/> </td>
-                            <td>${(entity.name)!}<input type="hidden" name="name[${entity_index}]" value="${(entity.name)!}"/></td>
-                            <td>${(entity.columnType)!}<input type="hidden" name="columnType[${entity_index}]" value="${(entity.columnType)!}"/></td>
-                            <td>${(entity.type)!}<input type="hidden" name="type[${entity_index}]" value="${(entity.type)!}"/></td>
-                            <td>${(entity.length)!}<input type="hidden" name="length[${entity_index}]" value="${(entity.length)!}"/></td>
-                            <td><input type="checkbox" name = "nullable[${entity_index}]" lay-skin="primary" ${(entity.nullable?? && entity.nullable == 1)?string("checked","")} /></td>
-                            <td><input type="checkbox" name = "isList[${entity_index}]" lay-skin="primary" ${(entity.isList?? && entity.isList == 1)?string("checked","")} /></td>
-                            <td><input type="checkbox" name = "isSelect[${entity_index}]" lay-skin="primary" ${(entity.isSelect?? && entity.isSelect == 1)?string("checked","")} /></td>
+                            <td>${(entity.columnName)!}<input type="hidden" name="autoTableColumns[${entity_index}].columnName" value="${(entity.columnName)!}"/> </td>
+                            <td>${(entity.name)!}<input type="hidden" name="autoTableColumns[${entity_index}].name" value="${(entity.name)!}"/></td>
+                            <td>${(entity.columnType)!}<input type="hidden" name="autoTableColumns[${entity_index}].columnType" value="${(entity.columnType)!}"/></td>
+                            <td>${(entity.type)!}<input type="hidden" name="autoTableColumns[${entity_index}].type" value="${(entity.type)!}"/></td>
+                            <td>${(entity.length)!}<input type="hidden" name="autoTableColumns[${entity_index}].length" value="${(entity.length)!}"/></td>
+                            <td><input type="checkbox" value="1" name = "autoTableColumns[${entity_index}].nullable" lay-skin="primary" ${(entity.nullable?? && entity.nullable == 1)?string("checked","")} /></td>
+                            <td><input type="checkbox" value="1" name = "autoTableColumns[${entity_index}].isList" lay-skin="primary" ${(entity.isList?? && entity.isList == 1)?string("checked","")} /></td>
+                            <td><input type="checkbox" value="1" name = "autoTableColumns[${entity_index}].isSelect" lay-skin="primary" ${(entity.isSelect?? && entity.isSelect == 1)?string("checked","")} /></td>
                             <td>
-                                <select name = "isSelectType[${entity_index}]">
+                                <select name = "autoTableColumns[${entity_index}].isSelectType">
                                     <@common.mdictOptions title="auto_select_type" value="${(entity.isSelectType)!}" />
                                 </select>
                             </td>
-                            <td><input type = "text" name = "orderNo[${entity_index}]" value = "${(entity.orderNo)!}" lay-verify="required|number" class="layui-input" maxlength="4"/></td>
-                            <td><input type = "text" name = "mdictTitle[${entity_index}]" value = "${(entity.mdictTitle)!}" lay-verify="required" class="layui-input" maxlength="50"/></td>
+                            <td><input type = "text" name = "autoTableColumns[${entity_index}].orderNo" value = "${(entity.orderNo)!}" lay-verify="required|number" class="layui-input" maxlength="4"/></td>
+                            <td><input type = "text" name = "autoTableColumns[${entity_index}].mdictTitle" value = "${(entity.mdictTitle)!}" lay-verify="required" class="layui-input" maxlength="50"/></td>
                         </tr>
                         </#list>
                     </tbody>

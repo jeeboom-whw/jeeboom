@@ -11,6 +11,7 @@ import com.hongwei.common.interfaces.Permission;
 import com.hongwei.moddle.auto.entity.AutoTable;
 import com.hongwei.moddle.auto.entity.AutoTableColumn;
 import com.hongwei.moddle.auto.service.AutoTableService;
+import com.hongwei.moddle.auto.vo.req.AutoTableReq;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -84,11 +85,10 @@ public class AutoTableController extends BaseController {
 	// 代码生成页面 选择数据库表
 	@Permission("auto:autoTable:view")
 	@GetMapping("pathFrom")
-	public String pathFrom(Model model,AutoTable autoTable,List<AutoTableColumn> autoTableColumns){
-		System.out.println(JSON.toJSONString(autoTable));
-		System.out.println(JSON.toJSONString(autoTableColumns));
+	public String pathFrom(Model model,AutoTableReq autoTableReq){
+		System.out.println(JSON.toJSONString(autoTableReq));
 
-		return "auto/autoTable/showTables";
+		return null;
 	}
 
 
