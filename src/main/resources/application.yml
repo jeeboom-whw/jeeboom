@@ -17,7 +17,7 @@ spring:
  datasource:
   url: jdbc:mysql://localhost:3306/jeeboom?useUnicode=true&characterEncoding=UTF-8&useSSL=false&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
   username: root
-  password: root
+  password: 12qwAS
   driverClassName: com.mysql.jdbc.Driver
   max-active: 20
   max-idle: 8
@@ -28,3 +28,8 @@ spring:
 mybatis:
  config-locations: classpath:mybatis/mybatis-config.xml
  mapper-locations: classpath:mybatis/mapper/*/*/*.xml
+
+#配置路径
+path:
+ basepackage: com.hongwei.moddle
+ outRoot: C:/Users/Administrator/Desktop/IdeaProject/jeeboom

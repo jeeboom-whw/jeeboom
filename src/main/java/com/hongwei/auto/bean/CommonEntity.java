@@ -2,6 +2,7 @@ package com.hongwei.auto.bean;
 
 import com.hongwei.auto.util.MySqlTools;
 import com.hongwei.auto.util.PropertiesUtil;
+import com.hongwei.common.util.GlobalValue;
 
 public class CommonEntity {
 
@@ -26,7 +27,7 @@ public class CommonEntity {
         this.uname = uname;
         this.info = info;
         this.model = model;
-        this.basePackage = PropertiesUtil.getValue("basepackage") + "." + model;
+        this.basePackage = GlobalValue.basepackage + "." + model;
     }
 
     public String getClassName() {

@@ -2,6 +2,7 @@ package com.hongwei.auto.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.hongwei.common.util.GlobalValue;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -67,8 +68,8 @@ public class FileHelper {
 
 	public static void createFileByTemp(String model,Map<String,Object> map) throws Exception{
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_21);
-		String outRoot = PropertiesUtil.getValue("outRoot");
-		String basepackage = PropertiesUtil.getValue("basepackage") + "." + model;
+		String outRoot = GlobalValue.outRoot;
+		String basepackage = GlobalValue.basepackage + "." + model;
 		String templateDir = FileHelper.class.getClassLoader().getResource("autotemplates").getPath();
 		File tdf = new File(templateDir);
 		List<File> files = FileHelper.findAllFile(tdf);

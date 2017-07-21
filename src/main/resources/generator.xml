@@ -3,22 +3,6 @@
 <properties>
      <comment>代码生成器配置文件:</comment>
 
-     <!-- ########################## 生成代码路径 BEGIN ########################## -->
-
-     <entry key="basepackage">com.hongwei.moddle</entry>
-     <entry key="outRoot">C:/Users/Administrator/Desktop/IdeaProject/jeeboom</entry>
-
-     <!-- ##########################  生成代码路径 END  ########################## -->
-     <!-- ============================================================================================================= -->
-     <!-- ########################## MySQL链接 BEGIN ########################## -->
-
-     <entry key="jdbc.url">jdbc:mysql://localhost:3306/jeeboom?useUnicode=true&amp;characterEncoding=UTF-8</entry>
-     <entry key="jdbc.driver">com.mysql.jdbc.Driver</entry>
-     <entry key="jdbc.username">root</entry>
-     <entry key="jdbc.password">12qwAS</entry>
-
-     <!-- ##########################  MySQL链接 END  ########################## -->
-     <!-- ============================================================================================================= -->
      <!-- ########################## MySQL类型转换 BEGIN ########################## -->
 
      <entry key="tableRemovePrefixes"/>
