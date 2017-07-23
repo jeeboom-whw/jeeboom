@@ -1,13 +1,17 @@
 package com.hongwei.moddle.auto.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.hongwei.auto.bean.Column;
-import com.hongwei.auto.bean.Table;
-import com.hongwei.auto.util.MySqlTools;
+import com.hongwei.common.auto.bean.Column;
+import com.hongwei.common.auto.bean.CommonEntity;
+import com.hongwei.common.auto.bean.Table;
+import com.hongwei.common.auto.util.CamelCaseUtils;
+import com.hongwei.common.auto.util.FileHelper;
+import com.hongwei.common.auto.util.MySqlTools;
 import com.hongwei.common.bean.Pager;
 import com.hongwei.common.bean.ResultData;
 import com.hongwei.common.framework.base.BaseController;
 import com.hongwei.common.interfaces.Permission;
+import com.hongwei.common.util.GlobalValue;
 import com.hongwei.moddle.auto.entity.AutoTable;
 import com.hongwei.moddle.auto.entity.AutoTableColumn;
 import com.hongwei.moddle.auto.service.AutoTableService;
@@ -22,9 +26,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * 数据库表视图层
@@ -69,6 +72,7 @@ public class AutoTableController extends BaseController {
 			autoTableColumn.setType(column.getType());
 			autoTableColumn.setIsList(1);
 			autoTableColumn.setIsSelect(0);
+			autoTableColumn.setNameUpper(column.getNameUpper());
 			autoTableColumn.setIsSelectType(1);
 			autoTableColumn.setLabel(column.getLabel());
 			autoTableColumn.setLength(column.getLength());
@@ -87,9 +91,43 @@ public class AutoTableController extends BaseController {
 	@GetMapping("pathFrom")
 	public String pathFrom(Model model,AutoTableReq autoTableReq){
 		System.out.println(JSON.toJSONString(autoTableReq));
-
-		return null;
+		model.addAttribute("outRoot", GlobalValue.outRoot);
+		model.addAttribute("package",GlobalValue.basepackage);
+		return "auto/autoTable/autoTableSave";
 	}
+
+
+	@Permission("auto:autoTable:view")
+	@GetMapping("createAutoFile")
+	public String createAutoFile(Model model,AutoTableReq autoTableReq) throws Exception {
+		System.out.println(JSON.toJSONString(autoTableReq));
+		//获取当前日期
+		SimpleDateFormat sm_date = new SimpleDateFormat("yyyy年MM月dd日");
+		SimpleDateFormat sm_year = new SimpleDateFormat("yyyy年");
+		Map<String,Object> map = new HashMap<String, Object>();
+		autoTableReq.getAutoTableColumns().forEach(autoTableColumn -> {
+			autoTableColumn.setNullable(autoTableColumn.getNullable()==null?0:1);
+			autoTableColumn.setIsSelect(autoTableColumn.getIsSelect()==null?0:1);
+			autoTableColumn.setIsList(autoTableColumn.getIsList()==null?0:1);
+		});
+		map.put("autoTable",autoTableReq.getAutoTable());	//表信息配置
+		map.put("tableColumns",autoTableReq.getAutoTableColumns());	  //列表信息配置
+		map.put("model",autoTableReq.getModel());	//模块名称
+		map.put("package",autoTableReq.getBasePackage() + "." + autoTableReq.getModel());	//包路径
+		map.put("outRoot",autoTableReq.getOutRoot());	//生成代码绝对路径
+		map.put("info",autoTableReq.getInfo());	//代码描述
+		map.put("createType",autoTableReq.getCreateType());	//代码生成类型
+		String name = CamelCaseUtils.toCamelCase(autoTableReq.getAutoTable().getTableName());
+		map.put("classNameLower",name);	//生成类首字母小写命名
+		map.put("className",name.replaceFirst(name.substring(0, 1), name.substring(0, 1).toUpperCase()));	//驼峰命名
+		map.put("date", sm_date.format(new Date()));
+		map.put("year", sm_year.format(new Date()));
+		FileHelper.createFileByTemp(autoTableReq.getModel(),map);
+		return  "redirect:/autoTable/showTables";
+	}
+
+
+
 
 
 	//分页列表

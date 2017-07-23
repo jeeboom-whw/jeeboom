@@ -43,12 +43,12 @@ public class GlobalValue {
     }
 
     @Value("${path.basepackage}")
-    public static void setBasepackage(String basepackage) {
+    public void setBasepackage(String basepackage) {
         GlobalValue.basepackage = basepackage;
     }
 
     @Value("${path.outRoot}")
-    public static void setOutRoot(String outRoot) {
+    public void setOutRoot(String outRoot) {
         GlobalValue.outRoot = outRoot;
     }
 }

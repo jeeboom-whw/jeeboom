@@ -5,7 +5,7 @@ import com.hongwei.moddle.auto.entity.${className};
 import org.springframework.stereotype.Component;
 
 /**
- * ${entity.info}持久层接口
+ * ${info}${autoInfo.daoHeader}
  */
 @Component
 public interface ${className}DAO {

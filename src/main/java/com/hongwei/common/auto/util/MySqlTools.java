@@ -1,9 +1,9 @@
-package com.hongwei.auto.util;
+package com.hongwei.common.auto.util;
 
-import com.hongwei.auto.bean.Column;
-import com.hongwei.auto.bean.CommonEntity;
-import com.hongwei.auto.bean.Table;
-import com.hongwei.auto.constant.MySqlConstant;
+import com.hongwei.common.auto.bean.Column;
+import com.hongwei.common.auto.bean.CommonEntity;
+import com.hongwei.common.auto.bean.Table;
+import com.hongwei.common.auto.constant.MySqlConstant;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;

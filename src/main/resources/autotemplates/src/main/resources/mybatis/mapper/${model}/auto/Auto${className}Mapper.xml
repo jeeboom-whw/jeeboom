@@ -2,16 +2,16 @@
  <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="${entity.basePackage}.dao.Auto${entity.className}DAO">
-	<!-- 返回值映射map -->
-	<resultMap id="${entity.classNameLower}Mapper" type="${entity.basePackage}.entity.${entity.className}">
-		<#list entity.table.columns as column>
-		<result property="${column.name}" column="${column.dbName}" />
+<mapper namespace="${package}.dao.Auto${className}DAO">
+	<!-- ${autoInfo.mapperMap} -->
+	<resultMap id="${classNameLower}Mapper" type="${package}.entity.${className}">
+		<#list tableColumns as column>
+		<result property="${column.name}" column="${column.columnName}" />
 		</#list>
 	</resultMap>
 
-	<!-- 分页查询数据集合-->
-	<select id="selectListByPage" resultMap="${entity.classNameLower}Mapper" >
+	<!-- ${autoInfo.mapperSelectListByPage} -->
+	<select id="selectListByPage" resultMap="${classNameLower}Mapper" >
 		<include refid="selectAllColumns"/>
 		<include refid="where_fragement" />
 		<if test="pager!=null">
@@ -19,137 +19,137 @@
 		</if>
 	</select>
 
-	<!-- 查询总数量 -->
+	<!-- ${autoInfo.mapperSelectCount} -->
 	<select id="selectCount" resultType="long">
 		<include refid="count_Tail"></include>
 		<include refid="where_fragement"></include>
 	</select>
 
-	<!-- 单条查询 -->
-	<select id="selectOne" resultMap="${entity.classNameLower}Mapper" >
+	<!-- ${autoInfo.mapperSelectOne} -->
+	<select id="selectOne" resultMap="${classNameLower}Mapper" >
 		<include refid="selectAllColumns"/>
 		<include refid="where_fragement" />
 	</select>
 
-	<!-- 单条查询 -->
-	<select id="selectById" resultMap="${entity.classNameLower}Mapper" >
+	<!-- ${autoInfo.mapperSelectById} -->
+	<select id="selectById" resultMap="${classNameLower}Mapper" >
 		<include refid="selectAllColumns"/>
 		WHERE record.id = ${r"#{id}"}
 	</select>
 
-	<!-- 新增 -->
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="${entity.basePackage}.entity.${entity.className}">
-		INSERT INTO ${entity.table.dbName}(
-			<#list entity.table.columns as column>
-			<#if column.name != 'id'>
-			${column.dbName}<#if column_has_next>,</#if>
+	<!-- ${autoInfo.mapperInsert}新增 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="${package}.entity.${className}">
+		INSERT INTO ${autoTable.tableName}(
+			<#list tableColumns as column>
+			<#if column.columnName != 'id'>
+			${column.columnName}<#if column_has_next>,</#if>
 			</#if>
 			</#list>
 		) values (
-			<#list entity.table.columns as column>
-			<#if column.name != 'id'>
+			<#list tableColumns as column>
+			<#if column.columnName != 'id'>
 			${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
 			</#if>
 			</#list>
 		)
 	</insert>
 
-	<!-- 修改（通过ID只对不为空的内容进行修改 -->
-	<update id="updateNotNull" parameterType="${entity.basePackage}.entity.${entity.className}">
-		UPDATE ${entity.table.dbName} record
+	<!-- ${autoInfo.mapperUpdateNotNull} -->
+	<update id="updateNotNull" parameterType="${package}.entity.${className}">
+		UPDATE ${autoTable.tableName} record
 		<include refid="update_fragement"/>
 		WHERE id = ${r'#{id}'}
 	</update>
 
-	<!-- 修改（通过ID更新所有属性值） -->
-	<update id="updateParams" parameterType="${entity.basePackage}.entity.${entity.className}">
-		UPDATE ${entity.table.dbName} record
+	<!-- ${autoInfo.mapperUpdateParams} -->
+	<update id="updateParams" parameterType="${package}.entity.${className}">
+		UPDATE ${autoTable.tableName} record
 		<set>
-		<#list entity.table.columns as column>
-			<#if column.name != 'id' && column.name != 'create_time' >
-				record.${column.dbName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+		<#list tableColumns as column>
+			<#if column.columnName != 'id' && column.columnName != 'create_time' >
+				record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
 			</#if>
 		</#list>
 		</set>
 		WHERE id = ${r'#{id}'}
 	</update>
 
-	<!--通过ID删除信息-->
+	<!-- ${autoInfo.mapperDeleteById} -->
 	<delete id="deleteById">
-		DELETE FROM ${entity.table.dbName}
+		DELETE FROM ${autoTable.tableName}
 		WHERE id = ${r"#{id}"}
 	</delete>
 
-	<!-- 通过IDS批量删除 -->
+	<!-- ${autoInfo.mapperDeleteByIds} -->
 	<delete id="deleteByIds">
-		DELETE FROM ${entity.table.dbName}
+		DELETE FROM ${autoTable.tableName}
 		WHERE id IN
 		<foreach collection="ids" open="(" separator="," close=")" item="id">
 			  ${r"#{id}"}
 		</foreach>
 	</delete>
 
-	<!-- /////////////////// 公共SQL STR ////////////////// -->
+	<!-- /////////////////// PUBLIC SQL STR ////////////////// -->
 
-	<!-- 查询数量公共sql -->
+	<!-- ${autoInfo.mapperCountTail} -->
 	<sql id="count_Tail">
-		SELECT count(1) FROM ${entity.table.dbName} record
+		SELECT count(1) FROM ${autoTable.tableName} record
 	</sql>
 
-	<!-- 分页公共sql -->
+	<!-- ${autoInfo.mapperPaginationTail} -->
 	<sql id="pagination_tail">
 		<if test=${"\""}pager.orderBy != null and pager.orderBy != ''${"\""}>
 			ORDER  BY  ${"$"}{pager.orderBy}
 		</if>
 	  	limit ${ r"#{pager.index} , #{pager.pageSize}"}
 	</sql>
-	<!-- 查询字段公共sql -->
+	<!-- ${autoInfo.mapperSelectAllColumns} -->
 	<sql id="selectAllColumns">
 		<![CDATA[
 			SELECT
-			<#list entity.table.columns as column>
-				${column.dbName}<#if column_has_next>,</#if>
+			<#list tableColumns as column>
+				${column.columnName}<#if column_has_next>,</#if>
 			</#list>
-			FROM ${entity.table.dbName} record
+			FROM ${autoTable.tableName} record
 		]]>
 	</sql>
 
 	<sql id="where_fragement">
 		WHERE 1=1
 		<if test="entity!=null">
-			<#list entity.table.columns as column>
+			<#list tableColumns as column>
 				<#if column.type == 'String'>
 				<if test = ${"\""}${ r"entity." + column.name + r" != null and entity." +column.name + r" != ''" }${"\""}>
-					<![CDATA[ AND record.${column.dbName}  = ${ r"#{entity." + column.name }} ]]>
+					<![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
 				</if>
 				</#if>
 				<#if column.type != 'String'>
 				<if test = ${"\""}${ r"entity." + column.name + r" != null" }${"\""}>
-					<![CDATA[ AND record.${column.dbName}  = ${ r"#{entity." + column.name }} ]]>
+					<![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
 				</if>
 				</#if>
 			</#list>
 		</if>
 	</sql>
 
-	<!--公共修改sql-->
+	<!-- ${autoInfo.mapperUpdateFragement}-->
 	<sql id="update_fragement">
 		<set>
-		<#list entity.table.columns as column>
-		<#if column.name != 'id' && column.name != 'create_time' >
+		<#list tableColumns as column>
+		<#if column.columnName != 'id' && column.columnName != 'create_time' >
 			<#if column.type == 'String'>
 			<if test = ${"\""}${ column.name + r" != null and " +column.name + r" != ''" }${"\""}>
-				record.${column.dbName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+				record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
 			</if>
 			</#if>
 			<#if column.type != 'String'>
 			<if test = ${"\""}${ column.name + r" != null " }${"\""}>
-				record.${column.dbName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+				record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
 			</if>
 			</#if>
 		</#if>
 		</#list>
 		</set>
 	</sql>
-	<!-- /////////////////// 公共SQL END ////////////////// -->
+	<!-- /////////////////// PUBLIC SQL END ////////////////// -->
 </mapper>

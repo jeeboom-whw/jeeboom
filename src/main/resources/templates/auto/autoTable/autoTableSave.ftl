@@ -13,79 +13,46 @@
 		<div style="margin: 10px;">
 			<div class="layui-tab-brief" >
 				<ul class="layui-tab-title">
-					<li class="layui-this">${(autoTable?? && autoTable.id??)?string('编辑','添加')}数据库表</li>
+					<li class="layui-this">最终配置</li>
 				</ul>
 			</div>
-			<form id="saveForm" class="layui-form layui-form-pane mt10" >
-				<input type="hidden" value="${(autoTable.id)!}" name="id" />
-
+			<div id="saveForm" class="layui-form layui-form-pane mt10" >
 				<div class="layui-form-item">
-					<label class="layui-form-label">数据库表名</label>
+					<label class="layui-form-label">生成路径</label>
 					<div class="layui-input-block">
-						<input type="text" name="tableName" lay-verify="required" value="${(autoTable.tableName)!}" placeholder="请输入数据库表名" class="layui-input" maxlength="50">
+						<input type="text" name="outRoot" lay-verify="required" value="${(outRoot)!}" class="layui-input" maxlength="200">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">表别名</label>
+					<label class="layui-form-label">包 路 径</label>
 					<div class="layui-input-block">
-						<input type="text" name="name" lay-verify="required" value="${(autoTable.name)!}" placeholder="请输入表别名" class="layui-input" maxlength="50">
+						<input type="text" name="basePackage" lay-verify="required" value="${(package)!}" class="layui-input" maxlength="150">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">表注释</label>
+					<label class="layui-form-label">模块名称</label>
 					<div class="layui-input-block">
-						<input type="text" name="label" value="${(autoTable.label)!}" placeholder="请输入表注释" class="layui-input" maxlength="200">
+						<input type="text" name="model" lay-verify="required" value="demo" placeholder="例如 test" class="layui-input" maxlength="200">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">表生成类型1单表 2树行列表结构 3包含关联关系表(扩展以后用)</label>
+					<label class="layui-form-label">代码说明</label>
 					<div class="layui-input-block">
-						<input type="text" name="type" lay-verify="required|number" value="${(autoTable.type)!}" placeholder="请输入表生成类型1单表 2树行列表结构 3包含关联关系表(扩展以后用)" class="layui-input" maxlength="10">
+						<input type="text" name="info" lay-verify="required" value="测试" placeholder="例如 学生测试" class="layui-input" maxlength="50">
 					</div>
 				</div>
 				<div class="layui-form-item">
-					<label class="layui-form-label">是否有删除功能(真删除)</label>
+					<label class="layui-form-label">选择类型</label>
 					<div class="layui-input-block">
-						<input type="text" name="isDel" value="${(autoTable.isDel)!}" placeholder="请输入是否有删除功能(真删除)" class="layui-input" maxlength="10">
+                        <@common.mdictRedio name="createType" title="auto_create_type" value = "1" />
 					</div>
 				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">是否有展示隐藏功能(假删除)</label>
-					<div class="layui-input-block">
-						<input type="text" name="isShow" value="${(autoTable.isShow)!}" placeholder="请输入是否有展示隐藏功能(假删除)" class="layui-input" maxlength="10">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">是否有上下架功能</label>
-					<div class="layui-input-block">
-						<input type="text" name="isStatus" value="${(autoTable.isStatus)!}" placeholder="请输入是否有上下架功能" class="layui-input" maxlength="10">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">批量删除功能(真删除)</label>
-					<div class="layui-input-block">
-						<input type="text" name="isAllDel" value="${(autoTable.isAllDel)!}" placeholder="请输入批量删除功能(真删除)" class="layui-input" maxlength="10">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">批量展示隐藏功能(假删除)</label>
-					<div class="layui-input-block">
-						<input type="text" name="isAllShow" value="${(autoTable.isAllShow)!}" placeholder="请输入批量展示隐藏功能(假删除)" class="layui-input" maxlength="10">
-					</div>
-				</div>
-				<div class="layui-form-item">
-					<label class="layui-form-label">批量上下架功能</label>
-					<div class="layui-input-block">
-						<input type="text" name="isAllStatus" value="${(autoTable.isAllStatus)!}" placeholder="请输入批量上下架功能" class="layui-input" maxlength="10">
-					</div>
-				</div>
-
 				<@common.permission per='auto:autoTable:edit'>
 					<div class="layui-form-item">
-						<button class="layui-btn fr" lay-submit="" lay-filter="demo2">保存数据库表</button>
+						<button class="layui-btn fr" lay-submit="" lay-filter="demo2">生成代码</button>
 					</div>
 				</@common.permission>
-			</form>
+			</div>
 		</div>
 		<script type="text/javascript" src="${springMacroRequestContext.contextPath}/static/layui/layui.js"></script>
 		<script>
@@ -93,23 +60,14 @@
 				var form = layui.form();
 				var layer = layui.layer;
 				var $ = layui.jquery;
-                var laydate = layui.laydate;
                 form.on('submit(demo2)',function(data){
                     layer.load();
-                    $.ajax({
-                        url:"${springMacroRequestContext.contextPath}/autoTable/save",
-                        type:"post",
-                        data:$("#saveForm").serialize(),
-                        dataType:"json",
-                        success:function(d){
-                            layer.closeAll('loading');
-                            if(d.code == 200){
-                                parent.layui.submitForm();
-                            }else{
-                                layer.msg("对不起，访问不成功！错误编码：" + d.code);
-                            }
-                        }
-                    })
+                    var outRoot = $("input[name='outRoot']").val();
+                    var basePackage = $("input[name='basePackage']").val();
+                    var model = $("input[name='model']").val();
+                    var info = $("input[name='info']").val();
+                    var createType = $("input[name='createType']:checked").val();
+					parent.layui.submitForm(outRoot,basePackage,model,info,createType);
                     return false;
                 });
 

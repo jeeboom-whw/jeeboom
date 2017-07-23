@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 
 /**
- * ${entity.info}业务逻辑类
+ * ${info}${autoInfo.serviceHeader}
  */
 @Service
 public class ${className}Service extends BaseService<${className}> {
@@ -17,7 +17,7 @@ public class ${className}Service extends BaseService<${className}> {
 	@Resource
 	private ${className}DAO ${classNameLower}DAO;
 
-    /** 保存 */
+    /** ${autoInfo.serviceSave} */
     public void save(${className} ${classNameLower}) {
         if(${classNameLower}.getId() == null){
             this.insert(${classNameLower});

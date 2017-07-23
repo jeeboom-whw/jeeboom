@@ -20,3 +20,12 @@
         </#list>
     </@mdict>
 </#macro>
+
+<#-- 根据title获取字典列表拼装redio的dom -->
+<#macro mdictRedio name title value>
+    <@mdict t=title>
+        <#list fre_mdicts as mdict>
+            <input value="${mdict.value}" title="${(mdict.info)!}" type="radio" name="${name}" ${(mdict.value == value)?string("checked","")} />
+        </#list>
+    </@mdict>
+</#macro>

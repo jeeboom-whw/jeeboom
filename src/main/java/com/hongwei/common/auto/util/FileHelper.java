@@ -1,4 +1,4 @@
-package com.hongwei.auto.util;
+package com.hongwei.common.auto.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -54,13 +54,7 @@ public class FileHelper {
 		Matcher m = p.matcher(input);
 		while(m.find()){
 			String name = m.group(1);
-			String value = "";
-			if(name.split("\\\\").length>1){
-				JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(params.get("entity")));
-				value = jsonObject.getString(name.split("\\\\")[1]);
-			}else{
-				value  = String.valueOf(params.get(name));
-			}
+			String value  = String.valueOf(params.get(name));
 			input = input.replace(m.group(), value);
 		}
 		return input;
@@ -68,8 +62,7 @@ public class FileHelper {
 
 	public static void createFileByTemp(String model,Map<String,Object> map) throws Exception{
 		Configuration cfg = new Configuration(Configuration.VERSION_2_3_21);
-		String outRoot = GlobalValue.outRoot;
-		String basepackage = GlobalValue.basepackage + "." + model;
+		String outRoot = map.get("outRoot").toString();
 		String templateDir = FileHelper.class.getClassLoader().getResource("autotemplates").getPath();
 		File tdf = new File(templateDir);
 		List<File> files = FileHelper.findAllFile(tdf);
@@ -88,6 +81,7 @@ public class FileHelper {
 			File newFile = FileHelper.makeFile(outRoot + parentFileDir + "/" + fileName);
 			Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream( newFile ), "UTF-8"));
 			template.process(map, out);
+			out.close();;
 		}
 	}
 }

@@ -1,4 +1,4 @@
-package com.hongwei.auto.util;
+package com.hongwei.common.auto.util;
 
 import java.io.FileInputStream;
 import java.io.IOException;

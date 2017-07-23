@@ -1,5 +1,6 @@
 package com.hongwei.moddle.auto.entity;
 
+import com.hongwei.common.auto.util.CamelCaseUtils;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
@@ -19,6 +20,8 @@ public class AutoTableColumn implements Serializable {
 	private String columnName;
 	/**  属性别名 */
 	private String name;
+	/** 首字母小写 */
+	private String nameUpper;
 	/**  数据库类型 */
 	private String columnType;
 	/**  JAVA类型 */
@@ -75,6 +78,7 @@ public class AutoTableColumn implements Serializable {
 	}
 	
 	public void setName(String name){
+		this.nameUpper = CamelCaseUtils.toCamelCase(name);
 		this.name = name;
 	}
 
@@ -115,6 +119,9 @@ public class AutoTableColumn implements Serializable {
 	}
 	
 	public void setNullable(Integer nullable){
+		if(nullable==null){
+			nullable = 0;
+		}
 		this.nullable = nullable;
 	}
 
@@ -123,6 +130,9 @@ public class AutoTableColumn implements Serializable {
 	}
 	
 	public void setIsList(Integer isList){
+		if(isList==null){
+			isList = 0;
+		}
 		this.isList = isList;
 	}
 
@@ -131,6 +141,9 @@ public class AutoTableColumn implements Serializable {
 	}
 	
 	public void setIsSelect(Integer isSelect){
+		if(isSelect==null){
+			isSelect = 0;
+		}
 		this.isSelect = isSelect;
 	}
 
@@ -156,5 +169,13 @@ public class AutoTableColumn implements Serializable {
 	
 	public void setMdictTitle(String mdictTitle){
 		this.mdictTitle = mdictTitle;
+	}
+
+	public String getNameUpper() {
+		return nameUpper;
+	}
+
+	public void setNameUpper(String nameUpper) {
+		this.nameUpper = nameUpper;
 	}
 }

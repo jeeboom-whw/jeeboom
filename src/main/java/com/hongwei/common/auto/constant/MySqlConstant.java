@@ -1,6 +1,5 @@
-package com.hongwei.auto.constant;
+package com.hongwei.common.auto.constant;
 
-import com.hongwei.auto.util.PropertiesUtil;
 import com.hongwei.common.util.GlobalValue;
 
 public class MySqlConstant {

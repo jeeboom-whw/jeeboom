@@ -21,17 +21,18 @@
                 时间：2017-03-15
                 描述：表单搜索
             -->
-            <form class="layui-form" id="searchForm" action="${springMacroRequestContext.contextPath}/autoTable/pathFrom">
+            <form class="layui-form" id="searchForm" action="${springMacroRequestContext.contextPath}/autoTable/createAutoFile">
             <div style="margin-top: 20px;">
                 <div class="layui-form-item">
                     <div class="layui-inline">
                         表名：
                     </div>
                     <div class="layui-inline">
-                        <input  type = "text" disabled value="${(tableName)!}" name="autoTable.tableName" class="layui-input" />
+                        <input  type = "text" value="${(tableName)!}" class="layui-input" disabled="disabled"/>
+                        <input type = "hidden" value = "${(tableName)!}" name="autoTable.tableName" />
                     </div>
                     <div class="layui-inline fr">
-                        <button onclick="layui.nextForm()" class="layui-btn">下一步&nbsp;<i class="layui-icon" >&#xe602;</i></button>
+                        <a href="javascript:layui.pathFrom()" class="layui-btn">下一步&nbsp;<i class="layui-icon" >&#xe602;</i></a>
                     </div>
                     <div class="layui-inline fr">
                         <input  type = "checkbox" value="1" name="autoTable.isAllStatus" class="layui-input" /> 批量上下架
@@ -78,6 +79,7 @@
                     </thead>
                     <tbody>
                         <#list list as entity>
+                        <input type="hidden" name="autoTableColumns[${entity_index}].label" value="${(entity.label)!}"/>
                         <tr>
                             <td>${(entity.columnName)!}<input type="hidden" name="autoTableColumns[${entity_index}].columnName" value="${(entity.columnName)!}"/> </td>
                             <td>${(entity.name)!}<input type="hidden" name="autoTableColumns[${entity_index}].name" value="${(entity.name)!}"/></td>
@@ -98,6 +100,13 @@
                         </#list>
                     </tbody>
                 </table>
+                <div class="hide" id="chieldHtm">
+                    <input type="hidden" name = "outRoot" />
+                    <input type="hidden" name = "basePackage" />
+                    <input type="hidden" name = "model" />
+                    <input type="hidden" name = "info" />
+                    <input type="hidden" name = "createType" />
+                </div>
             </form>
             </div>
             </div>
@@ -105,13 +114,30 @@
             <script>
                 layui.use(['form','laydate','laypage','layer'],function(){
                     var form = layui.form();
-                    var laypage = layui.laypage;
                     var layer = layui.layer;
                     var $ = layui.jquery;
 
                     //搜索按钮点击事件
-                    layui.submitForm = function(){
+                    layui.submitForm = function(outRoot,basePackage,model,info,createType){
+                        $("input[name='outRoot']").val(outRoot);
+                        $("input[name='basePackage']").val(basePackage);
+                        $("input[name='model']").val(model);
+                        $("input[name='info']").val(info);
+                        $("input[name='createType']").val(createType);
                         $("#searchForm").submit();
+                    }
+
+                    //追加信息
+                    layui.pathFrom = function(){
+                        var url ='${springMacroRequestContext.contextPath}/autoTable/pathFrom';
+                        layer.open({
+                            type: 2,
+                            title:"最终代码生成配置",
+                            area: ['800px', '460px'],
+                            fixed: false, //不固定
+                            maxmin: true,
+                            content: url
+                        });
                     }
                 });
         </script>

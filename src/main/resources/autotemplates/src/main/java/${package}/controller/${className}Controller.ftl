@@ -1,4 +1,4 @@
-package ${package}.controller;
+﻿package ${package}.controller;
 
 import com.hongwei.common.bean.Pager;
 import com.hongwei.common.bean.ResultData;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.annotation.Resource;
 
 /**
- * ${entity.info}视图层
+ * ${info}${autoInfo.controllerHeader}
  */
 @Controller
 @RequestMapping("${classNameLower}")
@@ -36,7 +36,7 @@ public class ${className}Controller extends BaseController {
 		}
 	}
 
-	//分页列表
+	//${autoInfo.controllerPage}
 	@Permission("${model}:${classNameLower}:view")
 	@GetMapping("page")
 	public String page(${className} ${classNameLower}, Pager<${className}> pager, Model model){
@@ -46,7 +46,7 @@ public class ${className}Controller extends BaseController {
         return "${model}/${classNameLower}/${classNameLower}Page";
 	}
 
-	//跳转添加编辑页面
+	//${autoInfo.controllerSaveFrom}
 	@Permission("${model}:${classNameLower}:view")
 	@GetMapping("saveFrom")
 	public String saveFrom(${className} ${classNameLower},Model model){
@@ -54,7 +54,7 @@ public class ${className}Controller extends BaseController {
 		return "${model}/${classNameLower}/${classNameLower}Save";
     }
 
-	//添加编辑操作
+	//${autoInfo.controllerSave}
 	@Permission("${model}:${classNameLower}:edit")
 	@ResponseBody
 	@PostMapping("save")
@@ -68,7 +68,7 @@ public class ${className}Controller extends BaseController {
 		}
 	}
 
-    //删除
+    //${autoInfo.controllerDeleteById}
     @Permission("${model}:${classNameLower}:edit")
     @GetMapping("delById")
     public String delById(Long id){

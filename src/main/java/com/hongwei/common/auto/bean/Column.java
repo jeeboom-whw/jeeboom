@@ -1,7 +1,7 @@
-package com.hongwei.auto.bean;
+package com.hongwei.common.auto.bean;
 
-import com.hongwei.auto.util.CamelCaseUtils;
-import com.hongwei.auto.util.PropertiesUtil;
+import com.hongwei.common.auto.util.CamelCaseUtils;
+import com.hongwei.common.auto.util.PropertiesUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

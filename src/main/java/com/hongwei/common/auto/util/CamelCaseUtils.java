@@ -1,4 +1,4 @@
-package com.hongwei.auto.util;
+package com.hongwei.common.auto.util;
 
 public class CamelCaseUtils {
 	public static String toUnderlineName(String str) {
@@ -52,14 +52,5 @@ public class CamelCaseUtils {
 			}
 			return sb.toString();
 		}
-	}
-
-	public static void main(String[] args) {
-		System.out.println(CamelCaseUtils.toUnderlineName("ISOCertifiedStaff"));
-		System.out.println(CamelCaseUtils.toUnderlineName("CertifiedStaff"));
-		System.out.println(CamelCaseUtils.toUnderlineName("UserID"));
-		System.out.println(CamelCaseUtils.toCamelCase("iso_certified_staff"));
-		System.out.println(CamelCaseUtils.toCamelCase("certified_staff_"));
-		System.out.println(CamelCaseUtils.toCamelCase("_i_s_o_certified_staff"));
 	}
 }
