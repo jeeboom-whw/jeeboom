@@ -32,13 +32,13 @@
 				<div class="layui-form-item">
 					<label class="layui-form-label">模块名称</label>
 					<div class="layui-input-block">
-						<input type="text" name="model" lay-verify="required" value="demo" placeholder="例如 test" class="layui-input" maxlength="200">
+						<input type="text" name="model" lay-verify="required" placeholder="例如 test" class="layui-input" maxlength="200">
 					</div>
 				</div>
 				<div class="layui-form-item">
 					<label class="layui-form-label">代码说明</label>
 					<div class="layui-input-block">
-						<input type="text" name="info" lay-verify="required" value="测试" placeholder="例如 学生测试" class="layui-input" maxlength="50">
+						<input type="text" name="info" lay-verify="required" placeholder="例如 学生测试" class="layui-input" maxlength="50">
 					</div>
 				</div>
 				<div class="layui-form-item">

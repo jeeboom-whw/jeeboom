@@ -143,7 +143,7 @@ public class AutoTableController extends BaseController {
 			sysMenu.setLevel(3);
 			sysMenu.setName(autoTableReq.getInfo()+"管理");
 			sysMenu.setOrderNo(30);
-			sysMenu.setPath(name+"/page");
+			sysMenu.setPath("/" + name + "/page");
 			sysMenu.setPid(59L);
 			sysMenu.setStatus(2);
 			sysMenu.setUpdateBy(sysMenu.getCreateBy());

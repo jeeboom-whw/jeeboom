@@ -1,7 +1,7 @@
 package ${package}.dao;
 
 import com.hongwei.common.framework.base.BaseDAO;
-import com.hongwei.moddle.auto.entity.${className};
+import ${package}.entity.${className};
 import org.springframework.stereotype.Component;
 
 /**
