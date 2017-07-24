@@ -14,8 +14,8 @@ import javax.annotation.Resource;
 @Service
 public class ${className}Service extends BaseService<${className}> {
 
-	@Resource
-	private ${className}DAO ${classNameLower}DAO;
+    @Resource
+    private ${className}DAO ${classNameLower}DAO;
 
     /** ${autoInfo.serviceSave} */
     @Transactional

@@ -1,155 +1,156 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
- "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="${package}.dao.Auto${className}DAO">
-	<!-- ${autoInfo.mapperMap} -->
-	<resultMap id="${classNameLower}Mapper" type="${package}.entity.${className}">
-		<#list tableColumns as column>
-		<result property="${column.name}" column="${column.columnName}" />
-		</#list>
-	</resultMap>
+    <!-- ${autoInfo.mapperMap} -->
+    <resultMap id="${classNameLower}Mapper" type="${package}.entity.${className}">
+        <#list tableColumns as column>
+            <result property="${column.name}" column="${column.columnName}" />
+        </#list>
+    </resultMap>
 
-	<!-- ${autoInfo.mapperSelectListByPage} -->
-	<select id="selectListByPage" resultMap="${classNameLower}Mapper" >
-		<include refid="selectAllColumns"/>
-		<include refid="where_fragement" />
-		<if test="pager!=null">
-			<include refid="pagination_tail" />
-		</if>
-	</select>
+    <!-- ${autoInfo.mapperSelectListByPage} -->
+    <select id="selectListByPage" resultMap="${classNameLower}Mapper" >
+        <include refid="selectAllColumns"/>
+        <include refid="where_fragement" />
+        <if test="pager!=null">
+            <include refid="pagination_tail" />
+        </if>
+    </select>
 
-	<!-- ${autoInfo.mapperSelectCount} -->
-	<select id="selectCount" resultType="long">
-		<include refid="count_Tail"></include>
-		<include refid="where_fragement"></include>
-	</select>
+    <!-- ${autoInfo.mapperSelectCount} -->
+    <select id="selectCount" resultType="long">
+        <include refid="count_Tail"></include>
+        <include refid="where_fragement"></include>
+    </select>
 
-	<!-- ${autoInfo.mapperSelectOne} -->
-	<select id="selectOne" resultMap="${classNameLower}Mapper" >
-		<include refid="selectAllColumns"/>
-		<include refid="where_fragement" />
-	</select>
+    <!-- ${autoInfo.mapperSelectOne} -->
+    <select id="selectOne" resultMap="${classNameLower}Mapper" >
+        <include refid="selectAllColumns"/>
+        <include refid="where_fragement" />
+    </select>
 
-	<!-- ${autoInfo.mapperSelectById} -->
-	<select id="selectById" resultMap="${classNameLower}Mapper" >
-		<include refid="selectAllColumns"/>
-		WHERE record.id = ${r"#{id}"}
-	</select>
+    <!-- ${autoInfo.mapperSelectById} -->
+    <select id="selectById" resultMap="${classNameLower}Mapper" >
+        <include refid="selectAllColumns"/>
+        WHERE record.id = ${r"#{id}"}
+    </select>
 
-	<!-- ${autoInfo.mapperInsert}新增 -->
-	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="${package}.entity.${className}">
-		INSERT INTO ${autoTable.tableName}(
-			<#list tableColumns as column>
-			<#if column.columnName != 'id'>
-			${column.columnName}<#if column_has_next>,</#if>
-			</#if>
-			</#list>
-		) values (
-			<#list tableColumns as column>
-			<#if column.columnName != 'id'>
-			${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
-			</#if>
-			</#list>
-		)
-	</insert>
+    <!-- ${autoInfo.mapperInsert}新增 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="${package}.entity.${className}">
+        INSERT INTO ${autoTable.tableName}(
+        <#list tableColumns as column>
+        <#if column.columnName != 'id'>
+            ${column.columnName}<#if column_has_next>,</#if>
+        </#if>
+        </#list>
+        ) values (
+        <#list tableColumns as column>
+        <#if column.columnName != 'id'>
+            ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+        </#if>
+        </#list>
+        )
+    </insert>
 
-	<!-- ${autoInfo.mapperUpdateNotNull} -->
-	<update id="updateNotNull" parameterType="${package}.entity.${className}">
-		UPDATE ${autoTable.tableName} record
-		<include refid="update_fragement"/>
-		WHERE id = ${r'#{id}'}
-	</update>
+    <!-- ${autoInfo.mapperUpdateNotNull} -->
+    <update id="updateNotNull" parameterType="${package}.entity.${className}">
+        UPDATE ${autoTable.tableName} record
+        <include refid="update_fragement"/>
+        WHERE id = ${r'#{id}'}
+    </update>
 
-	<!-- ${autoInfo.mapperUpdateParams} -->
-	<update id="updateParams" parameterType="${package}.entity.${className}">
-		UPDATE ${autoTable.tableName} record
-		<set>
-		<#list tableColumns as column>
-			<#if column.columnName != 'id' && column.columnName != 'create_time' >
-				record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
-			</#if>
-		</#list>
-		</set>
-		WHERE id = ${r'#{id}'}
-	</update>
+    <!-- ${autoInfo.mapperUpdateParams} -->
+    <update id="updateParams" parameterType="${package}.entity.${className}">
+        UPDATE ${autoTable.tableName} record
+        <set>
+        <#list tableColumns as column>
+        <#if column.columnName != 'id' && column.columnName != 'create_time' >
+            record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+        </#if>
+        </#list>
+        </set>
+        WHERE id = ${r'#{id}'}
+    </update>
 
-	<!-- ${autoInfo.mapperDeleteById} -->
-	<delete id="deleteById">
-		DELETE FROM ${autoTable.tableName}
-		WHERE id = ${r"#{id}"}
-	</delete>
+    <!-- ${autoInfo.mapperDeleteById} -->
+    <delete id="deleteById">
+        DELETE FROM ${autoTable.tableName}
+        WHERE id = ${r"#{id}"}
+    </delete>
 
-	<!-- ${autoInfo.mapperDeleteByIds} -->
-	<delete id="deleteByIds">
-		DELETE FROM ${autoTable.tableName}
-		WHERE id IN
-		<foreach collection="ids" open="(" separator="," close=")" item="id">
-			  ${r"#{id}"}
-		</foreach>
-	</delete>
+    <!-- ${autoInfo.mapperDeleteByIds} -->
+    <delete id="deleteByIds">
+        DELETE FROM ${autoTable.tableName}
+        WHERE id IN
+        <foreach collection="ids" open="(" separator="," close=")" item="id">
+            ${r"#{id}"}
+        </foreach>
+    </delete>
 
-	<!-- /////////////////// PUBLIC SQL STR ////////////////// -->
+    <!-- /////////////////// PUBLIC SQL STR ////////////////// -->
 
-	<!-- ${autoInfo.mapperCountTail} -->
-	<sql id="count_Tail">
-		SELECT count(1) FROM ${autoTable.tableName} record
-	</sql>
+    <!-- ${autoInfo.mapperCountTail} -->
+    <sql id="count_Tail">
+        SELECT count(1) FROM ${autoTable.tableName} record
+    </sql>
 
-	<!-- ${autoInfo.mapperPaginationTail} -->
-	<sql id="pagination_tail">
-		<if test=${"\""}pager.orderBy != null and pager.orderBy != ''${"\""}>
-			ORDER  BY  ${"$"}{pager.orderBy}
-		</if>
-	  	limit ${ r"#{pager.index} , #{pager.pageSize}"}
-	</sql>
-	<!-- ${autoInfo.mapperSelectAllColumns} -->
-	<sql id="selectAllColumns">
-		<![CDATA[
+    <!-- ${autoInfo.mapperPaginationTail} -->
+    <sql id="pagination_tail">
+        <if test=${"\""}pager.orderBy != null and pager.orderBy != ''${"\""}>
+            ORDER  BY  ${"$"}{pager.orderBy}
+        </if>
+        limit ${ r"#{pager.index} , #{pager.pageSize}"}
+    </sql>
+
+    <!-- ${autoInfo.mapperSelectAllColumns} -->
+    <sql id="selectAllColumns">
+        <![CDATA[
 			SELECT
 			<#list tableColumns as column>
 				${column.columnName}<#if column_has_next>,</#if>
 			</#list>
 			FROM ${autoTable.tableName} record
 		]]>
-	</sql>
+</sql>
 
-	<sql id="where_fragement">
-		WHERE 1=1
-		<if test="entity!=null">
-			<#list tableColumns as column>
-				<#if column.type == 'String'>
-				<if test = ${"\""}${ r"entity." + column.name + r" != null and entity." +column.name + r" != ''" }${"\""}>
-					<![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
-				</if>
-				</#if>
-				<#if column.type != 'String'>
-				<if test = ${"\""}${ r"entity." + column.name + r" != null" }${"\""}>
-					<![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
-				</if>
-				</#if>
-			</#list>
-		</if>
-	</sql>
+    <sql id="where_fragement">
+        WHERE 1=1
+        <if test="entity!=null">
+        <#list tableColumns as column>
+        <#if column.type == 'String'>
+        <if test = ${"\""}${ r"entity." + column.name + r" != null and entity." +column.name + r" != ''" }${"\""}>
+          <![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
+        </if>
+        </#if>
+        <#if column.type != 'String'>
+        <if test = ${"\""}${ r"entity." + column.name + r" != null" }${"\""}>
+            <![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
+        </if>
+    </#if>
+    </#list>
+    </if>
+    </sql>
 
-	<!-- ${autoInfo.mapperUpdateFragement}-->
-	<sql id="update_fragement">
-		<set>
-		<#list tableColumns as column>
-		<#if column.columnName != 'id' && column.columnName != 'create_time' >
-			<#if column.type == 'String'>
-			<if test = ${"\""}${ column.name + r" != null and " +column.name + r" != ''" }${"\""}>
-				record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
-			</if>
-			</#if>
-			<#if column.type != 'String'>
-			<if test = ${"\""}${ column.name + r" != null " }${"\""}>
-				record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
-			</if>
-			</#if>
-		</#if>
-		</#list>
-		</set>
-	</sql>
-	<!-- /////////////////// PUBLIC SQL END ////////////////// -->
+    <!-- ${autoInfo.mapperUpdateFragement}-->
+    <sql id="update_fragement">
+    <set>
+        <#list tableColumns as column>
+        <#if column.columnName != 'id' && column.columnName != 'create_time' >
+        <#if column.type == 'String'>
+        <if test = ${"\""}${ column.name + r" != null and " +column.name + r" != ''" }${"\""}>
+            record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+        </if>
+        </#if>
+        <#if column.type != 'String'>
+        <if test = ${"\""}${ column.name + r" != null " }${"\""}>
+            record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+        </if>
+        </#if>
+        </#if>
+        </#list>
+        </set>
+    </sql>
+    <!-- /////////////////// PUBLIC SQL END ////////////////// -->
 </mapper>

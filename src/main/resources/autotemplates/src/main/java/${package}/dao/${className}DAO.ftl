@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface ${className}DAO {
-	
+
 }
 @Component
 interface Auto${className}DAO extends BaseDAO<${className}>{
