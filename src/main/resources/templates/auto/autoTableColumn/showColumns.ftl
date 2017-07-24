@@ -21,7 +21,7 @@
                 时间：2017-03-15
                 描述：表单搜索
             -->
-            <form class="layui-form" id="searchForm" action="${springMacroRequestContext.contextPath}/autoTable/createAutoFile">
+            <form class="layui-form" method="post" id="searchForm" action="${springMacroRequestContext.contextPath}/autoTable/createAutoFile">
             <div style="margin-top: 20px;">
                 <div class="layui-form-item">
                     <div class="layui-inline">

@@ -20,7 +20,7 @@ public class AutoTableColumn implements Serializable {
 	private String columnName;
 	/**  属性别名 */
 	private String name;
-	/** 首字母小写 */
+	/** 首字母大写 */
 	private String nameUpper;
 	/**  数据库类型 */
 	private String columnType;
@@ -78,7 +78,7 @@ public class AutoTableColumn implements Serializable {
 	}
 	
 	public void setName(String name){
-		this.nameUpper = CamelCaseUtils.toCamelCase(name);
+		this.nameUpper = name.replaceFirst(name.substring(0, 1), name.substring(0, 1).toUpperCase());
 		this.name = name;
 	}
 

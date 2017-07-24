@@ -16,11 +16,6 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     <li class="layui-this">${info}${autoInfo.htmlPageTitle}</li>
                 </ul>
             </div>
-            <!--
-                作者：196410791@qq.com
-                时间：2017-03-15
-                描述：表单搜索
-            -->
             <form id="searchForm" class="layui-form" style="margin-top: 20px;">
                 <div class="layui-form-item">
                     <input type ="hidden" name="pageNo" value="${r"${(pager.pageNo)!}"}">
@@ -94,27 +89,27 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                         }
                     });
 
-                    //搜索按钮点击事件
+                    //${autoInfo.htmlPageFind}
                     layui.submitForm = function(){
                         $("#searchForm").submit();
                     }
 
-                    //查看菜单信息
+                    //${autoInfo.htmlPageShow}
                     layui.showInfo = function(id){
-                        layui.save("查看${info}信息",id);
+                        layui.save("${autoInfo.htmlPageShow}${info}",id);
                     }
 
-                    //编辑
+                    //${autoInfo.htmlPageEdit}
                     layui.edit = function(id){
-                        layui.save("修改${info}信息",id)
+                        layui.save("${autoInfo.htmlPageEdit}${info}",id)
                     }
 
-                    //添加
+                    //${autoInfo.htmlPageAdd}
                     layui.add = function(){
-                        layui.save("添加${info}信息");
+                        layui.save("${autoInfo.htmlPageAdd}${info}");
                     }
 
-                    //添加or编辑弹窗
+                    //${autoInfo.htmlPageAdd}or${autoInfo.htmlPageEdit}ifream
                     layui.save = function(title,id){
                         var url ='${r"${springMacroRequestContext.contextPath}"}/${classNameLower}/saveFrom';
                         if(id!=null&&id!='undfined'){
@@ -124,21 +119,21 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                             type: 2,
                             title:title,
                             area: ['800px', '500px'],
-                            fixed: false, //不固定
+                            fixed: false,
                             maxmin: true,
                             content: url
                         });
                     }
 
-                    //上下架
+                    //${autoInfo.htmlPageActive}or${autoInfo.htmlPageInActive}
                     layui.accredit = function(id,status){
                         var title,b;
                         if(status == 1){
-                            title = "您是否确定要开启该${info}！";
-                            b = ['开启', '取消'];
+                            title = "${autoInfo.htmlPageActiveInfo}${info}！";
+                            b = ['${autoInfo.htmlPageActive}', '${autoInfo.htmlPageQX}'];
                         }else{
-                            title = "您是否确定要禁用该${info}！";
-                            b = ['禁用', '取消'];
+                            title = "${autoInfo.htmlPageInActiveInfo}${info}！";
+                            b = ['${autoInfo.htmlPageInActive}', '${autoInfo.htmlPageQX}'];
                         }
                         layer.msg(title, {
                             btn: b,
@@ -148,10 +143,10 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                         });
                     }
 
-                    //删除
+                    //${autoInfo.htmlPageDelete}
                     layui.del = function(id){
-                        layer.msg("您是否确定要删除该${info}！", {
-                            btn: ['删除', '不删除'],
+                        layer.msg("${autoInfo.htmlPageDeleteInfo}${info}！", {
+                            btn: ['${autoInfo.htmlPageDelete}', '${autoInfo.htmlPageNoDelete}'],
                             yes:function(){
                                 window.location.href="${r"${springMacroRequestContext.contextPath}"}/${classNameLower}/delById?id="+id;
                             }

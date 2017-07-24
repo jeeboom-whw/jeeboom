@@ -18,6 +18,7 @@ public class ${className}Service extends BaseService<${className}> {
 	private ${className}DAO ${classNameLower}DAO;
 
     /** ${autoInfo.serviceSave} */
+    @Transactional
     public void save(${className} ${classNameLower}) {
         if(${classNameLower}.getId() == null){
             this.insert(${classNameLower});

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.hongwei.common.auto.bean.Column;
 import com.hongwei.common.auto.bean.CommonEntity;
 import com.hongwei.common.auto.bean.Table;
+import com.hongwei.common.auto.constant.AutoInfoConstant;
 import com.hongwei.common.auto.util.CamelCaseUtils;
 import com.hongwei.common.auto.util.FileHelper;
 import com.hongwei.common.auto.util.MySqlTools;
@@ -16,6 +17,10 @@ import com.hongwei.moddle.auto.entity.AutoTable;
 import com.hongwei.moddle.auto.entity.AutoTableColumn;
 import com.hongwei.moddle.auto.service.AutoTableService;
 import com.hongwei.moddle.auto.vo.req.AutoTableReq;
+import com.hongwei.moddle.sys.entity.SysMenu;
+import com.hongwei.moddle.sys.service.SysMenuService;
+import com.hongwei.moddle.sys.utils.UserUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,6 +43,9 @@ public class AutoTableController extends BaseController {
 
 	@Resource
 	private AutoTableService autoTableService;
+
+	@Resource
+	private SysMenuService sysMenuService;
 
 	@ModelAttribute
 	public AutoTable get(@RequestParam(required=false) Long id) {
@@ -98,7 +106,7 @@ public class AutoTableController extends BaseController {
 
 
 	@Permission("auto:autoTable:view")
-	@GetMapping("createAutoFile")
+	@PostMapping("createAutoFile")
 	public String createAutoFile(Model model,AutoTableReq autoTableReq) throws Exception {
 		System.out.println(JSON.toJSONString(autoTableReq));
 		//获取当前日期
@@ -110,6 +118,7 @@ public class AutoTableController extends BaseController {
 			autoTableColumn.setIsSelect(autoTableColumn.getIsSelect()==null?0:1);
 			autoTableColumn.setIsList(autoTableColumn.getIsList()==null?0:1);
 		});
+		map.put("autoInfo",new AutoInfoConstant());
 		map.put("autoTable",autoTableReq.getAutoTable());	//表信息配置
 		map.put("tableColumns",autoTableReq.getAutoTableColumns());	  //列表信息配置
 		map.put("model",autoTableReq.getModel());	//模块名称
@@ -123,6 +132,50 @@ public class AutoTableController extends BaseController {
 		map.put("date", sm_date.format(new Date()));
 		map.put("year", sm_year.format(new Date()));
 		FileHelper.createFileByTemp(autoTableReq.getModel(),map);
+
+		//携带页面
+		if(autoTableReq.getCreateType() == 1){
+			SysMenu sysMenu = new SysMenu();
+			sysMenu.setCreateBy(UserUtil.getUser().getId());
+			sysMenu.setCreateTime(new Date());
+			sysMenu.setImg("&#xe600;");
+			sysMenu.setIsShow(1);
+			sysMenu.setLevel(3);
+			sysMenu.setName(autoTableReq.getInfo()+"管理");
+			sysMenu.setOrderNo(30);
+			sysMenu.setPath(name+"/page");
+			sysMenu.setPid(59L);
+			sysMenu.setStatus(2);
+			sysMenu.setUpdateBy(sysMenu.getCreateBy());
+			sysMenu.setCreateTime(sysMenu.getCreateTime());
+			sysMenuService.insert(sysMenu);
+			SysMenu sysMenuEdis = new SysMenu();
+			sysMenuEdis.setCreateBy(UserUtil.getUser().getId());
+			sysMenuEdis.setCreateTime(new Date());
+			sysMenuEdis.setIsShow(2);
+			sysMenuEdis.setLevel(4);
+			sysMenuEdis.setName("编辑");
+			sysMenuEdis.setOrderNo(20);
+			sysMenuEdis.setPid(sysMenu.getId());
+			sysMenuEdis.setStatus(2);
+			sysMenuEdis.setUpdateBy(sysMenuEdis.getCreateBy());
+			sysMenuEdis.setCreateTime(sysMenuEdis.getCreateTime());
+			sysMenuEdis.setPermision(autoTableReq.getModel()+":"+ name +":edit");
+			sysMenuService.insert(sysMenuEdis);
+			SysMenu sysMenuView = new SysMenu();
+			sysMenuView.setCreateBy(UserUtil.getUser().getId());
+			sysMenuView.setCreateTime(new Date());
+			sysMenuView.setIsShow(2);
+			sysMenuView.setLevel(4);
+			sysMenuView.setName("查看");
+			sysMenuView.setOrderNo(10);
+			sysMenuView.setPid(sysMenu.getId());
+			sysMenuView.setStatus(2);
+			sysMenuView.setUpdateBy(sysMenuView.getCreateBy());
+			sysMenuView.setCreateTime(sysMenuView.getCreateTime());
+			sysMenuView.setPermision(autoTableReq.getModel()+":"+ name +":view");
+			sysMenuService.insert(sysMenuView);
+		}
 		return  "redirect:/autoTable/showTables";
 	}
 
