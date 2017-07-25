@@ -118,19 +118,21 @@
     <sql id="where_fragement">
         WHERE 1=1
         <if test="entity!=null">
-        <#list tableColumns as column>
-        <#if column.type == 'String'>
-        <if test = ${"\""}${ r"entity." + column.name + r" != null and entity." +column.name + r" != ''" }${"\""}>
-          <![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
+            <#list tableColumns as column>
+            <#if column.type == 'String'>
+            <if test = ${"\""}${ r"entity." + column.name + r" != null and entity." +column.name + r" != ''" }${"\""}>
+            </#if>
+            <#if column.type != 'String'>
+            <if test = ${"\""}${ r"entity." + column.name + r" != null" }${"\""}>
+            </#if>
+            <#if column.isSelectType == 1>
+                <![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
+            <#elseif column.isSelectType == 2>
+
+            <#/if>
+            </if>
+            </#list>
         </if>
-        </#if>
-        <#if column.type != 'String'>
-        <if test = ${"\""}${ r"entity." + column.name + r" != null" }${"\""}>
-            <![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
-        </if>
-    </#if>
-    </#list>
-    </if>
     </sql>
 
     <!-- ${autoInfo.mapperUpdateFragement}-->

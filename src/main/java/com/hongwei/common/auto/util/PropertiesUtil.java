@@ -15,7 +15,7 @@ public class PropertiesUtil {
         try {
             if(properties == null){
                 properties = new Properties();
-                String fileDir = PropertiesUtil.class.getClassLoader().getResource("generator.xml").getFile();
+                String fileDir = PropertiesUtil.class.getClassLoader().getResource("generator.xml").getFile().replace("20%"," ");
                 properties.loadFromXML(new FileInputStream(fileDir));
             }
         } catch (IOException e) {

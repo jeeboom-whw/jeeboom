@@ -83,7 +83,6 @@
                     })
                     return false;
                 });
-
             });
 		</script>
 	</body>

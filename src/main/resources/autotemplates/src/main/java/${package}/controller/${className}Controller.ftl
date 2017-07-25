@@ -38,7 +38,7 @@ public class ${className}Controller extends BaseController {
 
     //${autoInfo.controllerPage}
     @Permission("${model}:${classNameLower}:view")
-    @GetMapping("page")
+    @RequestMapping("page")
     public String page(${className} ${classNameLower}, Pager<${className}> pager, Model model){
         Pager<${className}> page = ${classNameLower}Service.selectPage(${classNameLower}, pager);
         model.addAttribute("pager",page);

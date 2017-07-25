@@ -16,7 +16,7 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     <li class="layui-this">${info}${autoInfo.htmlPageTitle}</li>
                 </ul>
             </div>
-            <form id="searchForm" class="layui-form" style="margin-top: 20px;">
+            <form id="searchForm" class="layui-form" method="post" style="margin-top: 20px;">
                 <div class="layui-form-item">
                     <input type ="hidden" name="pageNo" value="${r"${(pager.pageNo)!}"}">
                     <input type ="hidden" name="pageSize" value="15">
@@ -25,7 +25,7 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                             <#if column.mdictTitle?? && column.mdictTitle!=''>
                     <div class="layui-inline">
                         <select name="${column.name}">
-                            <option>${(column.label)!}</option>
+                            <option value="">${(column.label)!}</option>
                             ${r"<@common.mdictOptions"} title="${column.mdictTitle}" value="${r"${(" + classNameLower + r"." + column.name + r")!}"}" ${r"/>"}
                         </select>
                     </div>
@@ -63,19 +63,19 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     </thead>
                     <tbody>
                     ${r"<#list pager.list as entity>"}
-                        <tr>
-                            <#list tableColumns as column>
-                                <#if column.isList?? && column.isList == 1>
-                            <td><#if column_index == 1>${r"<a href="+"\""+r"javascript:layui.showInfo('${(entity.id)!}')"+"\""+r">"}</#if><#if column.type == 'java.util.Date'>${r"<#if entity." + column.name + r"?? >"}${r"${entity." + column.name + r"?string(" + "\"" + r"yyyy年MM月dd日 HH:mm:ss" + "\"" + r")}"}${r"</#if>"}<#else>${r"${(entity." + column.name + r")!}"}</#if><#if column_index == 1>${r"</a>"}</#if></td>
-                                </#if>
-                            </#list>
-                            ${r"<@common.permission per='" + model + r":" + classNameLower + r":edit'>"}
-                            <td>
-                                <a href="javascript:layui.edit('${r"${(entity.id)!}"}')" class="layui-btn layui-btn-mini">${autoInfo.htmlPageEdit}</a>
-                                <a href="javascript:layui.del('${r"${(entity.id)!}"}')" class="layui-btn layui-btn-danger layui-btn-mini">${autoInfo.htmlPageDelete}</a>
-                            </td>
-                            ${r"</@common.permission>"}
-                        </tr>
+                    <tr>
+                        <#list tableColumns as column>
+                            <#if column.isList?? && column.isList == 1>
+                        <td><#if column_index == 1>${r"<a href="+"\""+r"javascript:layui.showInfo('${(entity.id)!}')"+"\""+r">"}</#if><#if column.type == 'java.util.Date'>${r"<#if entity." + column.name + r"?? >"}${r"${entity." + column.name + r"?string(" + "\"" + r"yyyy年MM月dd日 HH:mm:ss" + "\"" + r")}"}${r"</#if>"}<#elseif column.mdictTitle?? && column.mdictTitle!='' >${r"<@common.mdictInfo"} title='${column.mdictTitle}' value='${r"${(entity." + column.name + r")!}"}' ${r"/>"}<#else>${r"${(entity." + column.name + r")!}"}</#if><#if column_index == 1>${r"</a>"}</#if></td>
+                            </#if>
+                        </#list>
+                        ${r"<@common.permission per='" + model + r":" + classNameLower + r":edit'>"}
+                        <td>
+                            <a href="javascript:layui.edit('${r"${(entity.id)!}"}')" class="layui-btn layui-btn-mini">${autoInfo.htmlPageEdit}</a>
+                            <a href="javascript:layui.del('${r"${(entity.id)!}"}')" class="layui-btn layui-btn-danger layui-btn-mini">${autoInfo.htmlPageDelete}</a>
+                        </td>
+                        ${r"</@common.permission>"}
+                    </tr>
                         ${r"</#list>"}
                     </tbody>
                 </table>
