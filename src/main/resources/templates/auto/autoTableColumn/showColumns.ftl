@@ -69,9 +69,9 @@
                             <th>数据库类型</th>
                             <th>JAVA类型</th>
                             <th>长度</th>
-                            <th>是否空</th>
-                            <th>是否展示</th>
-                            <th>是否查询</th>
+                            <th>非空</th>
+                            <th>展示</th>
+                            <th>查询</th>
                             <th width="100px">查询类型</th>
                             <th width="100px">排序</th>
                             <th width="100px">数据字典</th>

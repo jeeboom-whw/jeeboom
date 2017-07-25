@@ -70,7 +70,6 @@
 					parent.layui.submitForm(outRoot,basePackage,model,info,createType);
                     return false;
                 });
-
             });
 		</script>
 	</body>
