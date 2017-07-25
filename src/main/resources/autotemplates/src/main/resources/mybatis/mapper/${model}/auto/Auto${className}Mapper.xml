@@ -6,7 +6,7 @@
     <!-- ${autoInfo.mapperMap} -->
     <resultMap id="${classNameLower}Mapper" type="${package}.entity.${className}">
         <#list tableColumns as column>
-            <result property="${column.name}" column="${column.columnName}" />
+        <result property="${column.name}" column="${column.columnName}" />
         </#list>
     </resultMap>
 
@@ -126,10 +126,14 @@
             <if test = ${"\""}${ r"entity." + column.name + r" != null" }${"\""}>
             </#if>
             <#if column.isSelectType == 1>
-                <![CDATA[ AND record.${column.columnName}  = ${ r"#{entity." + column.name }} ]]>
+                <![CDATA[ AND record.${column.columnName} = ${ r"#{entity." + column.name }} ]]>
             <#elseif column.isSelectType == 2>
-
-            <#/if>
+                <![CDATA[ AND record.${column.columnName} LIKE concat('%',${ r"#{entity." + column.name }},'%') ]]>
+            <#elseif column.isSelectType == 3>
+                <![CDATA[ AND record.${column.columnName} ${r">"} ${ r"#{entity." + column.name }} ]]>
+            <#elseif column.isSelectType == 4>
+                <![CDATA[ AND record.${column.columnName} ${r"<"} ${ r"#{entity." + column.name }} ]]>
+            </#if>
             </if>
             </#list>
         </if>
@@ -137,21 +141,21 @@
 
     <!-- ${autoInfo.mapperUpdateFragement}-->
     <sql id="update_fragement">
-    <set>
-        <#list tableColumns as column>
-        <#if column.columnName != 'id' && column.columnName != 'create_time' >
-        <#if column.type == 'String'>
-        <if test = ${"\""}${ column.name + r" != null and " +column.name + r" != ''" }${"\""}>
-            record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
-        </if>
-        </#if>
-        <#if column.type != 'String'>
-        <if test = ${"\""}${ column.name + r" != null " }${"\""}>
-            record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
-        </if>
-        </#if>
-        </#if>
-        </#list>
+        <set>
+            <#list tableColumns as column>
+            <#if column.columnName != 'id' && column.columnName != 'create_time' >
+            <#if column.type == 'String'>
+            <if test = ${"\""}${ column.name + r" != null and " +column.name + r" != ''" }${"\""}>
+                record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+            </if>
+            </#if>
+            <#if column.type != 'String'>
+            <if test = ${"\""}${ column.name + r" != null " }${"\""}>
+                record.${column.columnName} = ${ r"#{" + column.name + r"}" }<#if column_has_next>,</#if>
+            </if>
+            </#if>
+            </#if>
+            </#list>
         </set>
     </sql>
     <!-- /////////////////// PUBLIC SQL END ////////////////// -->
