@@ -11,7 +11,7 @@
 <configuration>
 	
 	<property name="appName" value="web-app"/>
-	<property name="rootPath" value="/Users/hongweiwang/logs/"/>
+	<property name="rootPath" value="/logs/"/>
 	
 	<contextName>${appName}</contextName>
 	
