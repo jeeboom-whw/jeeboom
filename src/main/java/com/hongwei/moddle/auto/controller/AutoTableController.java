@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.security.AuthProvider;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -118,8 +119,15 @@ public class AutoTableController extends BaseController {
 			autoTableColumn.setIsSelect(autoTableColumn.getIsSelect()==null?0:1);
 			autoTableColumn.setIsList(autoTableColumn.getIsList()==null?0:1);
 		});
+		AutoTable autoTable = autoTableReq.getAutoTable();
+		autoTable.setIsAllDel(autoTable.getIsAllDel()==null?0:1);
+		autoTable.setIsAllShow(autoTable.getIsAllShow()==null?0:1);
+		autoTable.setIsAllStatus(autoTable.getIsAllStatus()==null?0:1);
+		autoTable.setIsDel(autoTable.getIsDel()==null?0:1);
+		autoTable.setIsShow(autoTable.getIsShow()==null?0:1);
+		autoTable.setIsStatus(autoTable.getIsStatus()==null?0:1);
 		map.put("autoInfo",new AutoInfoConstant());
-		map.put("autoTable",autoTableReq.getAutoTable());	//表信息配置
+		map.put("autoTable",autoTable);	//表信息配置
 		map.put("tableColumns",autoTableReq.getAutoTableColumns());	  //列表信息配置
 		map.put("model",autoTableReq.getModel());	//模块名称
 		map.put("package",autoTableReq.getBasePackage() + "." + autoTableReq.getModel());	//包路径
