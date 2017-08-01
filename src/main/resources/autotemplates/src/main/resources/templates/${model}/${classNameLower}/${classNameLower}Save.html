@@ -24,27 +24,27 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                         ${r"<div class="+"\"" + r"layui-form-item"}${(column.type == 'String' && column.length gt 149)?string(" layui-form-text","")}${"\"" + r">"}
                             <label class="layui-form-label">${(column.label)!}</label>
                             <div class="layui-input-block">
-                                <#if column.type == 'java.util.Date'>
+                            <#if column.type == 'java.util.Date'>
                                     ${r"<#if " + classNameLower + r"?? && " + classNameLower + r"." + column.name + r"??>"}
-                                    <input type="text" name="${column.name}" ${(column.nullable)?string('','lay-verify=\"required\" ')}value="${r"${" + classNameLower + r"." + column.name + r"?string('yyyy-MM-dd HH:mm:ss')}"}" placeholder="${autoInfo.htmlPageInput}${column.label}" class="layui-input" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" maxlength="${column.length}">
+                                    <input type="text" name="${column.name}" ${(column.nullable!=1)?string('','lay-verify=\"required\" ')}value="${r"${" + classNameLower + r"." + column.name + r"?string('yyyy-MM-dd HH:mm:ss')}"}" placeholder="${autoInfo.htmlPageInput}${column.label}" class="layui-input" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" maxlength="${column.length}">
                                     ${r"<#else>"}
-                                    <input type="text" name="${column.name}" ${(column.nullable)?string('','lay-verify=\"required\" ')}value="" placeholder="${autoInfo.htmlPageInput}${column.label}" class="layui-input" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" maxlength="${column.length}">
+                                    <input type="text" name="${column.name}" ${(column.nullable!=1)?string('','lay-verify=\"required\" ')}value="" placeholder="${autoInfo.htmlPageInput}${column.label}" class="layui-input" onclick="layui.laydate({elem: this, istime: true, format: 'YYYY-MM-DD hh:mm:ss'})" maxlength="${column.length}">
                                     ${r"</#if>"}
-                                    <#else>
-                                    <#if column.mdictTitle?? && column.mdictTitle!=''>
+                            <#else>
+                                <#if column.mdictTitle?? && column.mdictTitle!=''>
                                     <select name="${column.name}">
                                         ${r"<@common.mdictOptions"} title="${column.mdictTitle}" value="${r"${(" + classNameLower + r"." + column.name + r")!}"}" ${r"/>"}
                                     </select>
-                                    <#else>
-                                    <#if (column.type == 'Integer' || column.type == 'Long') && column.nullable==1>
+                                <#else>
+                                 <#if (column.type == 'Integer' || column.type == 'Long') && column.nullable==1>
                                     <input type="text" name="${column.name}" lay-verify="required|number" value="${r"${(" + classNameLower + r"." + column.name + r")!}"}" placeholder="${autoInfo.htmlPageInput}${(column.label)!}" class="layui-input" maxlength="${column.length}">
-                                    <#elseif column.type == 'String' && column.length gt 149 >
-                                    <textarea placeholder="${autoInfo.htmlPageInput}${(column.label)!}" name="${column.name}" ${(column.nullable==1)?string('','lay-verify=\"required\" ')}class="layui-textarea" maxlength="${column.length}">${r"${(" + classNameLower + r"." + column.name + r")!}"}</textarea>
-                                    <#else>
-                                    <input type="text" name="${column.name}" ${(column.nullable==1)?string('','lay-verify=\"required\" ')}value="${r"${(" + classNameLower + r"." + column.name + r")!}"}" placeholder="${autoInfo.htmlPageInput}${(column.label)!}" class="layui-input" maxlength="${column.length}">
-                                    </#if>
-                                    </#if>
+                                 <#elseif column.type == 'String' && column.length gt 149 >
+                                    <textarea placeholder="${autoInfo.htmlPageInput}${(column.label)!}" name="${column.name}" ${(column.nullable!=1)?string('','lay-verify=\"required\" ')}class="layui-textarea" maxlength="${column.length}">${r"${(" + classNameLower + r"." + column.name + r")!}"}</textarea>
+                                 <#else>
+                                    <input type="text" name="${column.name}" ${(column.nullable!=1)?string('','lay-verify=\"required\" ')}value="${r"${(" + classNameLower + r"." + column.name + r")!}"}" placeholder="${autoInfo.htmlPageInput}${(column.label)!}" class="layui-input" maxlength="${column.length}">
+                                 </#if>
                                 </#if>
+                            </#if>
                             </div>
                         </div>
                     </#if>

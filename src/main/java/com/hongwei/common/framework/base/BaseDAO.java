@@ -38,5 +38,5 @@ public interface BaseDAO<T> {
 	void deleteById(@Param("id") Long id);
 
 	/** 通过IDS批量删除数据 */
-	void deleteByIds(@Param("ids") Long[] ids);
+	void deleteByIds(@Param("ids") String[] ids);
 }

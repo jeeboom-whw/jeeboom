@@ -12,6 +12,12 @@ public class AutoInfoConstant {
 
     private String controllerDeleteById = "删除";
 
+    private String controllerDeleteByIds = "批量删除";
+
+    private String controllerIsShow = "展示隐藏";
+
+    private String controllerIsStatus = "上下架";
+
     private String daoHeader = "持久层";
 
     private String beanHeader = "实体类";
@@ -400,5 +406,29 @@ public class AutoInfoConstant {
 
     public void setHtmlPageSave(String htmlPageSave) {
         this.htmlPageSave = htmlPageSave;
+    }
+
+    public String getControllerDeleteByIds() {
+        return controllerDeleteByIds;
+    }
+
+    public void setControllerDeleteByIds(String controllerDeleteByIds) {
+        this.controllerDeleteByIds = controllerDeleteByIds;
+    }
+
+    public String getControllerIsShow() {
+        return controllerIsShow;
+    }
+
+    public void setControllerIsShow(String controllerIsShow) {
+        this.controllerIsShow = controllerIsShow;
+    }
+
+    public String getControllerIsStatus() {
+        return controllerIsStatus;
+    }
+
+    public void setControllerIsStatus(String controllerIsStatus) {
+        this.controllerIsStatus = controllerIsStatus;
     }
 }

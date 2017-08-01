@@ -2,7 +2,6 @@ package com.hongwei.moddle.auto.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.hongwei.common.auto.bean.Column;
-import com.hongwei.common.auto.bean.CommonEntity;
 import com.hongwei.common.auto.bean.Table;
 import com.hongwei.common.auto.constant.AutoInfoConstant;
 import com.hongwei.common.auto.util.CamelCaseUtils;
@@ -20,18 +19,11 @@ import com.hongwei.moddle.auto.vo.req.AutoTableReq;
 import com.hongwei.moddle.sys.entity.SysMenu;
 import com.hongwei.moddle.sys.service.SysMenuService;
 import com.hongwei.moddle.sys.utils.UserUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.security.AuthProvider;
 import java.text.SimpleDateFormat;
 import java.util.*;
 

@@ -48,9 +48,12 @@ ${r"<#import"} "../../macro/common.ftl" as common>
             </form>
 
             <div style="margin-top: 20px;">
-                <table class="layui-table" >
+                <table class="layui-table${(autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1)?string(" layui-form","")}">
                     <thead>
                     <tr>
+                        <#if autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1>
+                        <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
+                        </#if>
                         <#list tableColumns as column>
                             <#if column.isList?? && column.isList == 1>
                         <th>${(column.label)!}</th>
@@ -64,6 +67,9 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     <tbody>
                     ${r"<#list pager.list as entity>"}
                     <tr>
+                        <#if autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1>
+                        <td><input type="checkbox" name="" lay-skin="primary"></td>
+                        </#if>
                         <#list tableColumns as column>
                             <#if column.isList?? && column.isList == 1>
                         <td><#if column_index == 1>${r"<a href="+"\""+r"javascript:layui.showInfo('${(entity.id)!}')"+"\""+r">"}</#if><#if column.type == 'java.util.Date'>${r"<#if entity." + column.name + r"?? >"}${r"${entity." + column.name + r"?string(" + "\"" + r"yyyy年MM月dd日 HH:mm:ss" + "\"" + r")}"}${r"</#if>"}<#elseif column.mdictTitle?? && column.mdictTitle!='' >${r"<@common.mdictInfo"} title='${column.mdictTitle}' value='${r"${(entity." + column.name + r")!}"}' ${r"/>"}<#else>${r"${(entity." + column.name + r")!}"}</#if><#if column_index == 1>${r"</a>"}</#if></td>
@@ -101,6 +107,16 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                         }
                     }
                 });
+
+                <#if autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1>
+                form.on('checkbox(allChoose)', function(data){
+                    var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
+                    child.each(function(index, item){
+                        item.checked = data.elem.checked;
+                    });
+                    form.render('checkbox');
+                });
+                </#if>
 
                 //${autoInfo.htmlPageFind}
                 layui.submitForm = function(){

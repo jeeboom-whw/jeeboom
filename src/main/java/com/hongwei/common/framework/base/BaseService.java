@@ -75,6 +75,12 @@ public class BaseService<T> {
         baseDAO.deleteById(id);
     }
 
+    /** 批量删除 */
+    public void deleteByIds(String[] ids){
+        getBaseDao();
+        baseDAO.deleteByIds(ids);
+    }
+
     private void getBaseDao(){
         String beanDaoStr = "auto" + this.getClass().getSimpleName().replace("Service","DAO");
         baseDAO = (BaseDAO)SpringUtil.getBean(beanDaoStr);
