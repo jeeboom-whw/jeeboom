@@ -48,10 +48,10 @@ ${r"<#import"} "../../macro/common.ftl" as common>
             </form>
 
             <div style="margin-top: 20px;">
-                <table class="layui-table${(autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1)?string(" layui-form","")}">
+                <table class="layui-table${((autoTable.isAllStatus?? && autoTable.isAllStatus==1) ||(autoTable.isAllDelete?? && autoTable.isAllDelete==1) || (autoTable.isAllShow?? && autoTable.isAllShow==1))?string(" layui-form","")}">
                     <thead>
                     <tr>
-                        <#if autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1>
+                        <#if (autoTable.isAllStatus?? && autoTable.isAllStatus==1) ||(autoTable.isAllDelete?? && autoTable.isAllDelete==1) || (autoTable.isAllShow?? && autoTable.isAllShow==1)>
                         <th><input type="checkbox" name="" lay-skin="primary" lay-filter="allChoose"></th>
                         </#if>
                         <#list tableColumns as column>
@@ -67,7 +67,7 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     <tbody>
                     ${r"<#list pager.list as entity>"}
                     <tr>
-                        <#if autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1>
+                        <#if (autoTable.isAllStatus?? && autoTable.isAllStatus==1) ||(autoTable.isAllDelete?? && autoTable.isAllDelete==1) || (autoTable.isAllShow?? && autoTable.isAllShow==1)>
                         <td><input type="checkbox" name="" lay-skin="primary"></td>
                         </#if>
                         <#list tableColumns as column>
@@ -108,7 +108,7 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     }
                 });
 
-                <#if autoTable.isAllStatus==1 || autoTable.isAllDelete==1 || autoTable.isAllShow==1>
+                <#if (autoTable.isAllStatus?? && autoTable.isAllStatus==1) ||(autoTable.isAllDelete?? && autoTable.isAllDelete==1) || (autoTable.isAllShow?? && autoTable.isAllShow==1)>
                 form.on('checkbox(allChoose)', function(data){
                     var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]');
                     child.each(function(index, item){
