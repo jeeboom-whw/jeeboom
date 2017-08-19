@@ -26,14 +26,6 @@ public class ${className}Service extends BaseService<${className}> {
             this.updateParams(${classNameLower});
         }
     }
-    <#if autoTable.isShow==1 || autoTable.isAllShow==1>
-
-    //${autoInfo.controllerIsShow}
-    @Transactional
-    public void isShow(String ids,Integer showType){
-        ${classNameLower}DAO.isShow(ids,showType);
-    }
-    </#if>
     <#if autoTable.isStatus==1 || autoTable.isAllStatus==1>
 
     //${autoInfo.controllerIsStatus}

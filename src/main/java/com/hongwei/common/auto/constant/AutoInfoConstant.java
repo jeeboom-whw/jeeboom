@@ -58,6 +58,8 @@ public class AutoInfoConstant {
 
     private String htmlPageFind = "搜索";
 
+    private String htmlPageReset = "重置";
+
     private String htmlPageAdd = "添加";
 
     private String htmlPageState = "操作";
@@ -87,6 +89,12 @@ public class AutoInfoConstant {
     private String htmlPageInput = "请输入";
 
     private String htmlPageSave = "保存";
+
+    private String htmlPageSuccess = "保存成功";
+
+    private String htmlPageNoOne = "请选择要操作的数据!";
+
+    private String htmlPageDelMany= "请选择要操作的数据!";
 
     public String getControllerHeader() {
         return controllerHeader;
@@ -430,5 +438,37 @@ public class AutoInfoConstant {
 
     public void setControllerIsStatus(String controllerIsStatus) {
         this.controllerIsStatus = controllerIsStatus;
+    }
+
+    public String getHtmlPageSuccess() {
+        return htmlPageSuccess;
+    }
+
+    public void setHtmlPageSuccess(String htmlPageSuccess) {
+        this.htmlPageSuccess = htmlPageSuccess;
+    }
+
+    public String getHtmlPageNoOne() {
+        return htmlPageNoOne;
+    }
+
+    public void setHtmlPageNoOne(String htmlPageNoOne) {
+        this.htmlPageNoOne = htmlPageNoOne;
+    }
+
+    public String getHtmlPageDelMany() {
+        return htmlPageDelMany;
+    }
+
+    public void setHtmlPageDelMany(String htmlPageDelMany) {
+        this.htmlPageDelMany = htmlPageDelMany;
+    }
+
+    public String getHtmlPageReset() {
+        return htmlPageReset;
+    }
+
+    public void setHtmlPageReset(String htmlPageReset) {
+        this.htmlPageReset = htmlPageReset;
     }
 }

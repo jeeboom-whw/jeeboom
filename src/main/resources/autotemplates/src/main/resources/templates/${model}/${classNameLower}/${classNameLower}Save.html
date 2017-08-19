@@ -74,7 +74,7 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                         success:function(d){
                             layer.closeAll('loading');
                             if(d.code == 200){
-                                window.top.layer.msg('保存成功', {icon: 1});
+                                window.top.layer.msg('${autoInfo.htmlPageSuccess}', {icon: 1});
                                 parent.layui.submitForm();
                             }else{
                                 layer.msg("${autoInfo.htmlPageSorry}" + d.code);

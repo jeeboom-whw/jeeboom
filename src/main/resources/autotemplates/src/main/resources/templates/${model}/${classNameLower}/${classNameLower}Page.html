@@ -37,14 +37,32 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                         </#if>
                     </#list>
                     <div class="layui-inline">
+                        <button class="layui-btn layui-btn-primary" type="reset">${autoInfo.htmlPageFind}&nbsp;<i class="layui-icon">&#x1002;</i></button>
+                    </div>
+                    <div class="layui-inline">
                         <button onclick="layui.submitForm()" class="layui-btn">${autoInfo.htmlPageFind}&nbsp;<i class="layui-icon" >&#xe615;</i></button>
                     </div>
-                    ${r"<@common.permission per='" + model + r":" + classNameLower + r":edit'>"}
-                    <div class="layui-inline">
-                        <a href="javascript:layui.add();" class="layui-btn">${autoInfo.htmlPageAdd}${info}&nbsp;<i class="layui-icon" >&#xe612;</i></a>
-                    </div>
-                    ${r"</@common.permission>"}
                 </div>
+                ${r"<@common.permission per='" + model + r":" + classNameLower + r":edit'>"}
+                <div class="layui-form-item">
+                    <#if autoTable.isAllStatus==1>
+                    <div class="layui-inline">
+                        <a href="javascript:layui.accredit(1)" class="layui-btn layui-btn-primary layui-btn-small">${autoInfo.htmlPageActive}&nbsp;<i class="layui-icon" >&#xe605;</i></a>
+                    </div>
+                    <div class="layui-inline">
+                        <a href="javascript:layui.accredit(2)" class="layui-btn layui-btn-primary layui-btn-small">${autoInfo.htmlPageInActive}&nbsp;<i class="layui-icon" >&#x1006;</i></a>
+                    </div>
+                    </#if>
+                    <div class="layui-inline">
+                        <a href="javascript:layui.add();" class="layui-btn layui-btn-primary layui-btn-small">${autoInfo.htmlPageAdd}&nbsp;<i class="layui-icon" >&#xe654;</i></a>
+                    </div>
+                    <#if autoTable.isAllDel==1>
+                    <div class="layui-inline">
+                        <a href="javascript:layui.del()" class="layui-btn layui-btn-primary layui-btn-small">${autoInfo.htmlPageDelete}&nbsp;<i class="layui-icon" >&#xe640;</i></a>
+                    </div>
+                    </#if>
+                </div>
+                ${r"</@common.permission>"}
             </form>
 
             <div style="margin-top: 20px;">
@@ -68,7 +86,7 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     ${r"<#list pager.list as entity>"}
                     <tr>
                         <#if (autoTable.isAllStatus?? && autoTable.isAllStatus==1) ||(autoTable.isAllDelete?? && autoTable.isAllDelete==1) || (autoTable.isAllShow?? && autoTable.isAllShow==1)>
-                        <td><input type="checkbox" name="" lay-skin="primary"></td>
+                        <td><input type="checkbox" name="entityIds" value = "${r"${(entity.id)!}"}" lay-skin="primary"></td>
                         </#if>
                         <#list tableColumns as column>
                             <#if column.isList?? && column.isList == 1>
@@ -78,7 +96,14 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                         ${r"<@common.permission per='" + model + r":" + classNameLower + r":edit'>"}
                         <td>
                             <a href="javascript:layui.edit('${r"${(entity.id)!}"}')" class="layui-btn layui-btn-mini">${autoInfo.htmlPageEdit}</a>
+                            <#if autoTable.isDel==1>
                             <a href="javascript:layui.del('${r"${(entity.id)!}"}')" class="layui-btn layui-btn-danger layui-btn-mini">${autoInfo.htmlPageDelete}</a>
+                            </#if>
+                            <#if autoTable.isStatus==1>
+                            <a href="javascript:layui.accredit('${r"${(entity.status)!}"}','${r"${(entity.id)!}"}')" class="layui-btn layui-btn-danger layui-btn-mini">
+                                ${r"${(entity.status?? && entity.status == 1)?string('" + autoInfo.htmlPageActive + r"','" + autoInfo.htmlPageInActive + "')}"}
+                            </a>
+                            </#if>
                         </td>
                         ${r"</@common.permission>"}
                     </tr>
@@ -116,6 +141,18 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                     });
                     form.render('checkbox');
                 });
+
+                layui.getIds = function(){
+                    var idArray = $("input[name='entityIds']:checked");
+                    var ids = "";
+                    if(idArray.length > 0){
+                        $.each(idArray,function(idx,ele){
+                            ids = ids + $(ele).val() + ",";
+                        });
+                        ids = ids.slice(0, ids.length - 1);
+                    }
+                    return ids;
+                }
                 </#if>
 
                 //${autoInfo.htmlPageFind}
@@ -155,29 +192,43 @@ ${r"<#import"} "../../macro/common.ftl" as common>
                 }
 
                 //${autoInfo.htmlPageActive}or${autoInfo.htmlPageInActive}
-                layui.accredit = function(id,status){
+                layui.accredit = function(status,ids){
                     var title,b;
                     if(status == 1){
-                        title = "${autoInfo.htmlPageActiveInfo}${info}！";
+                        title = "${autoInfo.htmlPageActiveInfo}${info}!";
                         b = ['${autoInfo.htmlPageActive}', '${autoInfo.htmlPageQX}'];
                     }else{
-                        title = "${autoInfo.htmlPageInActiveInfo}${info}！";
+                        title = "${autoInfo.htmlPageInActiveInfo}${info}!";
                         b = ['${autoInfo.htmlPageInActive}', '${autoInfo.htmlPageQX}'];
                     }
-                    layer.msg(title, {
-                        btn: b,
-                        yes:function(){
-                            window.location.href="${r"${springMacroRequestContext.contextPath}"}/${classNameLower}/accredit?id="+id+"&status="+status;
-                        }
-                    });
+                    if(!ids){
+                        ids = layui.getIds();
+                    }
+                    if(ids ==""){
+                        layer.msg("${autoInfo.htmlPageNoOne}");
+                    }else{
+                        layer.msg(title, {
+                            btn: b,
+                            yes:function(){
+                                window.location.href="${r"${springMacroRequestContext.contextPath}"}/${classNameLower}/accredit?ids="+ids+"&status="+status;
+                            }
+                        });
+                    }
                 }
 
                 //${autoInfo.htmlPageDelete}
                 layui.del = function(id){
-                    layer.msg("${autoInfo.htmlPageDeleteInfo}${info}！", {
+                    layer.msg("${autoInfo.htmlPageDeleteInfo}${info}!", {
                         btn: ['${autoInfo.htmlPageDelete}', '${autoInfo.htmlPageNoDelete}'],
                         yes:function(){
-                            window.location.href="${r"${springMacroRequestContext.contextPath}"}/${classNameLower}/delById?id="+id;
+                            if(!id){
+                                id = layui.getIds();
+                            }
+                            if(id==""){
+                                layer.msg("${autoInfo.htmlPageDelMany}");
+                            }else{
+                                window.location.href="${r"${springMacroRequestContext.contextPath}"}/${classNameLower}/delByIds?ids="+id;
+                            }
                         }
                     });
                 }

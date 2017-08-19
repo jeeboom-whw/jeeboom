@@ -88,20 +88,8 @@ public class ${className}Controller extends BaseController {
     @Permission("${model}:${classNameLower}:edit")
     @GetMapping("delByIds")
     public String delByIds(String ids){
-        if(StringUtils.isBlank(ids)){
+        if(StringUtils.isNotBlank(ids)){
             ${classNameLower}Service.deleteByIds(ids.split(","));
-        }
-        return "redirect:/${classNameLower}/page";
-    }
-    </#if>
-    <#if autoTable.isShow==1 || autoTable.isAllShow==1>
-
-    //${autoInfo.controllerIsShow}
-    @Permission("${model}:${classNameLower}:edit")
-    @GetMapping("isShow")
-    public String isShow(String ids,Integer showType){
-        if(ids != null){
-            ${classNameLower}Service.isShow(ids,showType);
         }
         return "redirect:/${classNameLower}/page";
     }
@@ -112,8 +100,8 @@ public class ${className}Controller extends BaseController {
     @Permission("${model}:${classNameLower}:edit")
     @GetMapping("accredit")
     public String accredit(String ids,Integer status){
-        if(ids != null){
-            ${classNameLower}Service.accredit(ids,status);
+        if(StringUtils.isNotBlank(ids)){
+            ${classNameLower}Service.accredit(ids,status==1?2:1);
         }
         return "redirect:/${classNameLower}/page";
     }

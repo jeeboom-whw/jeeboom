@@ -41,12 +41,6 @@
                         <input  type = "checkbox" value="1" name="autoTable.isStatus" class="layui-input" /> 上下架
                     </div>
                     <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="autoTable.isAllShow" class="layui-input" /> 批量展示隐藏
-                    </div>
-                    <div class="layui-inline fr">
-                        <input  type = "checkbox" value="1" name="autoTable.isShow" class="layui-input" /> 展示隐藏
-                    </div>
-                    <div class="layui-inline fr">
                         <input  type = "checkbox" value="1" name="autoTable.isAllDel" class="layui-input" /> 批量删除
                     </div>
                     <div class="layui-inline fr">
